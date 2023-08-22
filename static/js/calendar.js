@@ -1,3 +1,7 @@
+$('#id_Start_and_End_Dates').daterangepicker({
+  startDate: moment(), // Replace this with your desired minimum date
+  minDate: moment(),
+});
 const calendarBody = document.getElementById('calendarBody');
 const monthCaption = document.getElementById('monthCaption');
 const weekdaysContainer = document.querySelector('.calendar-weekdays');
