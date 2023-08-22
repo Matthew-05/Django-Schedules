@@ -1,0 +1,17 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+<h5 >Change Business Settings</h5>
+
+<form hx-post="{{ request.path }}" hx-target="body">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</form>
+
+<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+{% endblock %}

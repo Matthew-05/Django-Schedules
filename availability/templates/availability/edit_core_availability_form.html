@@ -1,0 +1,891 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	</head>
+	<body>
+		<form hx-post="{{ request.path }}" class="modal-content" onsubmit="return validateForm()">
+			{% csrf_token %}
+			<link rel="stylesheet" href="{% static "css/availability.css" %}"/>
+			<div class="modal-header">
+				<h5 class="modal-title">Edit Availability for {{ employee.first_name }} {{employee.last_name}}</h5>
+			</div>
+			<div class="modal-body">
+				{% crispy form %}
+				<div class="grid-container">
+					<div class="header">
+						<ul class='weekdays'>
+						  <li>Monday</li>
+						  <li>Tuesday</li>
+						  <li>Wednesday</li>
+						  <li>Thursday</li>
+						  <li>Friday</li>
+						  <li>Saturday</li>
+						  <li>Sunday</li>
+						</ul>
+					</div>
+					<div class="timeslots-container">
+						<div class="time-block ten">
+							<div class="hour-label">12:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">1:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">2:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">3:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">4:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">5:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">6:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">7:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">8:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">9:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">10:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">11:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">12:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">1:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">2:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">3:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">4:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">5:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">6:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">7:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">8:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">9:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">10:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten">
+							<div class="hour-label">11:00</div>
+						</div>
+						<div class="time-block nine"></div>
+						<div class="time-block ten"></div>
+						<div class="time-block ten">
+							<div class="">12:00</div>
+						</div>
+
+					</div>
+					<div class='availability-container'>
+						<div id="monday-availability"class="week-availability">
+							<div timeslot='0'class='slot hour '></div>
+							<div timeslot='1'class='slot  '></div>
+							<div timeslot='2'class='slot thirty-min '></div> 
+							<div timeslot='3'class='slot  '></div>
+							<div timeslot='4'class='slot hour '></div>       
+							<div timeslot='5'class='slot  '></div>
+							<div timeslot='6'class='slot thirty-min '></div> 
+							<div timeslot='7'class='slot  '></div>
+							<div timeslot='8'class='slot hour '></div>       
+							<div timeslot='9'class='slot  '></div>
+							<div timeslot='10'class='slot thirty-min '></div>
+							<div timeslot='11'class='slot  '></div>
+							<div timeslot='12'class='slot hour '></div>      
+							<div timeslot='13'class='slot  '></div>
+							<div timeslot='14'class='slot thirty-min '></div>
+							<div timeslot='15'class='slot  '></div>
+							<div timeslot='16'class='slot hour '></div>      
+							<div timeslot='17'class='slot  '></div>
+							<div timeslot='18'class='slot thirty-min '></div>
+							<div timeslot='19'class='slot  '></div>
+							<div timeslot='20'class='slot hour '></div>      
+							<div timeslot='21'class='slot  '></div>
+							<div timeslot='22'class='slot thirty-min '></div>
+							<div timeslot='23'class='slot  '></div>
+							<div timeslot='24'class='slot hour '></div>      
+							<div timeslot='25'class='slot  '></div>
+							<div timeslot='26'class='slot thirty-min '></div>
+							<div timeslot='27'class='slot  '></div>
+							<div timeslot='28'class='slot hour '></div>      
+							<div timeslot='29'class='slot  '></div>
+							<div timeslot='30'class='slot thirty-min '></div>
+							<div timeslot='31'class='slot  '></div>
+							<div timeslot='32'class='slot hour '></div>
+							<div timeslot='33'class='slot  '></div>
+							<div timeslot='34'class='slot thirty-min '></div>
+							<div timeslot='35'class='slot  '></div>
+							<div timeslot='36'class='slot hour '></div>
+							<div timeslot='37'class='slot  '></div>
+							<div timeslot='38'class='slot thirty-min '></div>
+							<div timeslot='39'class='slot  '></div>
+							<div timeslot='40'class='slot hour '></div>
+							<div timeslot='41'class='slot  '></div>
+							<div timeslot='42'class='slot thirty-min '></div>
+							<div timeslot='43'class='slot  '></div>
+							<div timeslot='44'class='slot hour '></div>
+							<div timeslot='45'class='slot  '></div>
+							<div timeslot='46'class='slot thirty-min '></div>
+							<div timeslot='47'class='slot  '></div>
+							<div timeslot='48'class='slot hour '></div>
+							<div timeslot='49'class='slot  '></div>
+							<div timeslot='50'class='slot thirty-min '></div>
+							<div timeslot='51'class='slot  '></div>
+							<div timeslot='52'class='slot hour '></div>
+							<div timeslot='53'class='slot  '></div>
+							<div timeslot='54'class='slot thirty-min '></div>
+							<div timeslot='55'class='slot  '></div>
+							<div timeslot='56'class='slot hour '></div>
+							<div timeslot='57'class='slot  '></div>
+							<div timeslot='58'class='slot thirty-min '></div>
+							<div timeslot='59'class='slot  '></div>
+							<div timeslot='60'class='slot hour '></div>
+							<div timeslot='61'class='slot  '></div>
+							<div timeslot='62'class='slot thirty-min '></div>
+							<div timeslot='63'class='slot  '></div>
+							<div timeslot='64'class='slot hour '></div>
+							<div timeslot='65'class='slot  '></div>
+							<div timeslot='66'class='slot thirty-min '></div>
+							<div timeslot='67'class='slot  '></div>
+							<div timeslot='68'class='slot hour '></div>
+							<div timeslot='69'class='slot  '></div>
+							<div timeslot='70'class='slot thirty-min '></div>
+							<div timeslot='71'class='slot  '></div>
+							<div timeslot='72'class='slot hour '></div>
+							<div timeslot='73'class='slot  '></div>
+							<div timeslot='74'class='slot thirty-min '></div>
+							<div timeslot='75'class='slot  '></div>
+							<div timeslot='76'class='slot hour '></div>
+							<div timeslot='77'class='slot  '></div>
+							<div timeslot='78'class='slot thirty-min '></div>
+							<div timeslot='79'class='slot  '></div>
+							<div timeslot='80'class='slot hour '></div>
+							<div timeslot='81'class='slot  '></div>
+							<div timeslot='82'class='slot thirty-min '></div>
+							<div timeslot='83'class='slot  '></div>
+							<div timeslot='84'class='slot hour '></div>
+							<div timeslot='85'class='slot  '></div>
+							<div timeslot='86'class='slot thirty-min '></div>
+							<div timeslot='87'class='slot  '></div>
+							<div timeslot='88'class='slot hour '></div>
+							<div timeslot='89'class='slot  '></div>
+							<div timeslot='90'class='slot thirty-min '></div>
+							<div timeslot='91'class='slot  '></div>
+							<div timeslot='92'class='slot hour '></div>
+							<div timeslot='93'class='slot  '></div>
+							<div timeslot='94'class='slot thirty-min '></div>
+							<div timeslot='95'class='slot  '></div>
+						</div>
+						<div id="tuesday-availability" class="week-availability">
+							<div timeslot='96'class='slot hour '></div>
+							<div timeslot='97'class='slot  '></div>
+							<div timeslot='98'class='slot thirty-min '></div>
+							<div timeslot='99'class='slot  '></div>
+							<div timeslot='100'class='slot hour '></div>
+							<div timeslot='101'class='slot  '></div>
+							<div timeslot='102'class='slot thirty-min '></div>
+							<div timeslot='103'class='slot  '></div>
+							<div timeslot='104'class='slot hour '></div>
+							<div timeslot='105'class='slot  '></div>
+							<div timeslot='106'class='slot thirty-min '></div>
+							<div timeslot='107'class='slot  '></div>
+							<div timeslot='108'class='slot hour '></div>
+							<div timeslot='109'class='slot  '></div>
+							<div timeslot='110'class='slot thirty-min '></div>
+							<div timeslot='111'class='slot  '></div>
+							<div timeslot='112'class='slot hour '></div>
+							<div timeslot='113'class='slot  '></div>
+							<div timeslot='114'class='slot thirty-min '></div>
+							<div timeslot='115'class='slot  '></div>
+							<div timeslot='116'class='slot hour '></div>
+							<div timeslot='117'class='slot  '></div>
+							<div timeslot='118'class='slot thirty-min '></div>
+							<div timeslot='119'class='slot  '></div>
+							<div timeslot='120'class='slot hour '></div>
+							<div timeslot='121'class='slot  '></div>
+							<div timeslot='122'class='slot thirty-min '></div>
+							<div timeslot='123'class='slot  '></div>
+							<div timeslot='124'class='slot hour '></div>
+							<div timeslot='125'class='slot  '></div>
+							<div timeslot='126'class='slot thirty-min '></div>
+							<div timeslot='127'class='slot  '></div>
+							<div timeslot='128'class='slot hour '></div>
+							<div timeslot='129'class='slot  '></div>
+							<div timeslot='130'class='slot thirty-min '></div>
+							<div timeslot='131'class='slot  '></div>
+							<div timeslot='132'class='slot hour '></div>
+							<div timeslot='133'class='slot  '></div>
+							<div timeslot='134'class='slot thirty-min '></div>
+							<div timeslot='135'class='slot  '></div>
+							<div timeslot='136'class='slot hour '></div>
+							<div timeslot='137'class='slot  '></div>
+							<div timeslot='138'class='slot thirty-min '></div>
+							<div timeslot='139'class='slot  '></div>
+							<div timeslot='140'class='slot hour '></div>
+							<div timeslot='141'class='slot  '></div>
+							<div timeslot='142'class='slot thirty-min '></div>
+							<div timeslot='143'class='slot  '></div>
+							<div timeslot='144'class='slot hour '></div>
+							<div timeslot='145'class='slot  '></div>
+							<div timeslot='146'class='slot thirty-min '></div>
+							<div timeslot='147'class='slot  '></div>
+							<div timeslot='148'class='slot hour '></div>
+							<div timeslot='149'class='slot  '></div>
+							<div timeslot='150'class='slot thirty-min '></div>
+							<div timeslot='151'class='slot  '></div>
+							<div timeslot='152'class='slot hour '></div>
+							<div timeslot='153'class='slot  '></div>
+							<div timeslot='154'class='slot thirty-min '></div>
+							<div timeslot='155'class='slot  '></div>
+							<div timeslot='156'class='slot hour '></div>
+							<div timeslot='157'class='slot  '></div>
+							<div timeslot='158'class='slot thirty-min '></div>
+							<div timeslot='159'class='slot  '></div>
+							<div timeslot='160'class='slot hour '></div>
+							<div timeslot='161'class='slot  '></div>
+							<div timeslot='162'class='slot thirty-min '></div>
+							<div timeslot='163'class='slot  '></div>
+							<div timeslot='164'class='slot hour '></div>
+							<div timeslot='165'class='slot  '></div>
+							<div timeslot='166'class='slot thirty-min '></div>
+							<div timeslot='167'class='slot  '></div>
+							<div timeslot='168'class='slot hour '></div>
+							<div timeslot='169'class='slot  '></div>
+							<div timeslot='170'class='slot thirty-min '></div>
+							<div timeslot='171'class='slot  '></div>
+							<div timeslot='172'class='slot hour '></div>
+							<div timeslot='173'class='slot  '></div>
+							<div timeslot='174'class='slot thirty-min '></div>
+							<div timeslot='175'class='slot  '></div>
+							<div timeslot='176'class='slot hour '></div>
+							<div timeslot='177'class='slot  '></div>
+							<div timeslot='178'class='slot thirty-min '></div>
+							<div timeslot='179'class='slot  '></div>
+							<div timeslot='180'class='slot hour '></div>
+							<div timeslot='181'class='slot  '></div>
+							<div timeslot='182'class='slot thirty-min '></div>
+							<div timeslot='183'class='slot  '></div>
+							<div timeslot='184'class='slot hour '></div>
+							<div timeslot='185'class='slot  '></div>
+							<div timeslot='186'class='slot thirty-min '></div>
+							<div timeslot='187'class='slot  '></div>
+							<div timeslot='188'class='slot hour '></div>
+							<div timeslot='189'class='slot  '></div>
+							<div timeslot='190'class='slot thirty-min '></div>
+							<div timeslot='191'class='slot  '></div>
+						</div>
+						<div id="wednesday-availability"class="week-availability">
+							<div timeslot='192'class='slot hour '></div>
+							<div timeslot='193'class='slot  '></div>
+							<div timeslot='194'class='slot thirty-min '></div>
+							<div timeslot='195'class='slot  '></div>
+							<div timeslot='196'class='slot hour '></div>
+							<div timeslot='197'class='slot  '></div>
+							<div timeslot='198'class='slot thirty-min '></div>
+							<div timeslot='199'class='slot  '></div>
+							<div timeslot='200'class='slot hour '></div>
+							<div timeslot='201'class='slot  '></div>
+							<div timeslot='202'class='slot thirty-min '></div>
+							<div timeslot='203'class='slot  '></div>
+							<div timeslot='204'class='slot hour '></div>
+							<div timeslot='205'class='slot  '></div>
+							<div timeslot='206'class='slot thirty-min '></div>
+							<div timeslot='207'class='slot  '></div>
+							<div timeslot='208'class='slot hour '></div>
+							<div timeslot='209'class='slot  '></div>
+							<div timeslot='210'class='slot thirty-min '></div>
+							<div timeslot='211'class='slot  '></div>
+							<div timeslot='212'class='slot hour '></div>
+							<div timeslot='213'class='slot  '></div>
+							<div timeslot='214'class='slot thirty-min '></div>
+							<div timeslot='215'class='slot  '></div>
+							<div timeslot='216'class='slot hour '></div>
+							<div timeslot='217'class='slot  '></div>
+							<div timeslot='218'class='slot thirty-min '></div>
+							<div timeslot='219'class='slot  '></div>
+							<div timeslot='220'class='slot hour '></div>
+							<div timeslot='221'class='slot  '></div>
+							<div timeslot='222'class='slot thirty-min '></div>
+							<div timeslot='223'class='slot  '></div>
+							<div timeslot='224'class='slot hour '></div>
+							<div timeslot='225'class='slot  '></div>
+							<div timeslot='226'class='slot thirty-min '></div>
+							<div timeslot='227'class='slot  '></div>
+							<div timeslot='228'class='slot hour '></div>
+							<div timeslot='229'class='slot  '></div>
+							<div timeslot='230'class='slot thirty-min '></div>
+							<div timeslot='231'class='slot  '></div>
+							<div timeslot='232'class='slot hour '></div>
+							<div timeslot='233'class='slot  '></div>
+							<div timeslot='234'class='slot thirty-min '></div>
+							<div timeslot='235'class='slot  '></div>
+							<div timeslot='236'class='slot hour '></div>
+							<div timeslot='237'class='slot  '></div>
+							<div timeslot='238'class='slot thirty-min '></div>
+							<div timeslot='239'class='slot  '></div>
+							<div timeslot='240'class='slot hour '></div>
+							<div timeslot='241'class='slot  '></div>
+							<div timeslot='242'class='slot thirty-min '></div>
+							<div timeslot='243'class='slot  '></div>
+							<div timeslot='244'class='slot hour '></div>
+							<div timeslot='245'class='slot  '></div>
+							<div timeslot='246'class='slot thirty-min '></div>
+							<div timeslot='247'class='slot  '></div>
+							<div timeslot='248'class='slot hour '></div>
+							<div timeslot='249'class='slot  '></div>
+							<div timeslot='250'class='slot thirty-min '></div>
+							<div timeslot='251'class='slot  '></div>
+							<div timeslot='252'class='slot hour '></div>
+							<div timeslot='253'class='slot  '></div>
+							<div timeslot='254'class='slot thirty-min '></div>
+							<div timeslot='255'class='slot  '></div>
+							<div timeslot='256'class='slot hour '></div>
+							<div timeslot='257'class='slot  '></div>
+							<div timeslot='258'class='slot thirty-min '></div>
+							<div timeslot='259'class='slot  '></div>
+							<div timeslot='260'class='slot hour '></div>
+							<div timeslot='261'class='slot  '></div>
+							<div timeslot='262'class='slot thirty-min '></div>
+							<div timeslot='263'class='slot  '></div>
+							<div timeslot='264'class='slot hour '></div>
+							<div timeslot='265'class='slot  '></div>
+							<div timeslot='266'class='slot thirty-min '></div>
+							<div timeslot='267'class='slot  '></div>
+							<div timeslot='268'class='slot hour '></div>
+							<div timeslot='269'class='slot  '></div>
+							<div timeslot='270'class='slot thirty-min '></div>
+							<div timeslot='271'class='slot  '></div>
+							<div timeslot='272'class='slot hour '></div>
+							<div timeslot='273'class='slot  '></div>
+							<div timeslot='274'class='slot thirty-min '></div>
+							<div timeslot='275'class='slot  '></div>
+							<div timeslot='276'class='slot hour '></div>
+							<div timeslot='277'class='slot  '></div>
+							<div timeslot='278'class='slot thirty-min '></div>
+							<div timeslot='279'class='slot  '></div>
+							<div timeslot='280'class='slot hour '></div>
+							<div timeslot='281'class='slot  '></div>
+							<div timeslot='282'class='slot thirty-min '></div>
+							<div timeslot='283'class='slot  '></div>
+							<div timeslot='284'class='slot hour '></div>
+							<div timeslot='285'class='slot  '></div>
+							<div timeslot='286'class='slot thirty-min '></div>
+							<div timeslot='287'class='slot  '></div>
+						</div>
+						<div id="thursday-availability"class="week-availability">
+							<div timeslot='288'class='slot hour '></div>
+							<div timeslot='289'class='slot  '></div>
+							<div timeslot='290'class='slot thirty-min '></div>
+							<div timeslot='291'class='slot  '></div>
+							<div timeslot='292'class='slot hour '></div>
+							<div timeslot='293'class='slot  '></div>
+							<div timeslot='294'class='slot thirty-min '></div>
+							<div timeslot='295'class='slot  '></div>
+							<div timeslot='296'class='slot hour '></div>
+							<div timeslot='297'class='slot  '></div>
+							<div timeslot='298'class='slot thirty-min '></div>
+							<div timeslot='299'class='slot  '></div>
+							<div timeslot='300'class='slot hour '></div>
+							<div timeslot='301'class='slot  '></div>
+							<div timeslot='302'class='slot thirty-min '></div>
+							<div timeslot='303'class='slot  '></div>
+							<div timeslot='304'class='slot hour '></div>
+							<div timeslot='305'class='slot  '></div>
+							<div timeslot='306'class='slot thirty-min '></div>
+							<div timeslot='307'class='slot  '></div>
+							<div timeslot='308'class='slot hour '></div>
+							<div timeslot='309'class='slot  '></div>
+							<div timeslot='310'class='slot thirty-min '></div>
+							<div timeslot='311'class='slot  '></div>
+							<div timeslot='312'class='slot hour '></div>
+							<div timeslot='313'class='slot  '></div>
+							<div timeslot='314'class='slot thirty-min '></div>
+							<div timeslot='315'class='slot  '></div>
+							<div timeslot='316'class='slot hour '></div>
+							<div timeslot='317'class='slot  '></div>
+							<div timeslot='318'class='slot thirty-min '></div>
+							<div timeslot='319'class='slot  '></div>
+							<div timeslot='320'class='slot hour '></div>
+							<div timeslot='321'class='slot  '></div>
+							<div timeslot='322'class='slot thirty-min '></div>
+							<div timeslot='323'class='slot  '></div>
+							<div timeslot='324'class='slot hour '></div>
+							<div timeslot='325'class='slot  '></div>
+							<div timeslot='326'class='slot thirty-min '></div>
+							<div timeslot='327'class='slot  '></div>
+							<div timeslot='328'class='slot hour '></div>
+							<div timeslot='329'class='slot  '></div>
+							<div timeslot='330'class='slot thirty-min '></div>
+							<div timeslot='331'class='slot  '></div>
+							<div timeslot='332'class='slot hour '></div>
+							<div timeslot='333'class='slot  '></div>
+							<div timeslot='334'class='slot thirty-min '></div>
+							<div timeslot='335'class='slot  '></div>
+							<div timeslot='336'class='slot hour '></div>
+							<div timeslot='337'class='slot  '></div>
+							<div timeslot='338'class='slot thirty-min '></div>
+							<div timeslot='339'class='slot  '></div>
+							<div timeslot='340'class='slot hour '></div>
+							<div timeslot='341'class='slot  '></div>
+							<div timeslot='342'class='slot thirty-min '></div>
+							<div timeslot='343'class='slot  '></div>
+							<div timeslot='344'class='slot hour '></div>
+							<div timeslot='345'class='slot  '></div>
+							<div timeslot='346'class='slot thirty-min '></div>
+							<div timeslot='347'class='slot  '></div>
+							<div timeslot='348'class='slot hour '></div>
+							<div timeslot='349'class='slot  '></div>
+							<div timeslot='350'class='slot thirty-min '></div>
+							<div timeslot='351'class='slot  '></div>
+							<div timeslot='352'class='slot hour '></div>
+							<div timeslot='353'class='slot  '></div>
+							<div timeslot='354'class='slot thirty-min '></div>
+							<div timeslot='355'class='slot  '></div>
+							<div timeslot='356'class='slot hour '></div>
+							<div timeslot='357'class='slot  '></div>
+							<div timeslot='358'class='slot thirty-min '></div>
+							<div timeslot='359'class='slot  '></div>
+							<div timeslot='360'class='slot hour '></div>
+							<div timeslot='361'class='slot  '></div>
+							<div timeslot='362'class='slot thirty-min '></div>
+							<div timeslot='363'class='slot  '></div>
+							<div timeslot='364'class='slot hour '></div>
+							<div timeslot='365'class='slot  '></div>
+							<div timeslot='366'class='slot thirty-min '></div>
+							<div timeslot='367'class='slot  '></div>
+							<div timeslot='368'class='slot hour '></div>
+							<div timeslot='369'class='slot  '></div>
+							<div timeslot='370'class='slot thirty-min '></div>
+							<div timeslot='371'class='slot  '></div>
+							<div timeslot='372'class='slot hour '></div>
+							<div timeslot='373'class='slot  '></div>
+							<div timeslot='374'class='slot thirty-min '></div>
+							<div timeslot='375'class='slot  '></div>
+							<div timeslot='376'class='slot hour '></div>
+							<div timeslot='377'class='slot  '></div>
+							<div timeslot='378'class='slot thirty-min '></div>
+							<div timeslot='379'class='slot  '></div>
+							<div timeslot='380'class='slot hour '></div>
+							<div timeslot='381'class='slot  '></div>
+							<div timeslot='382'class='slot thirty-min '></div>
+							<div timeslot='383'class='slot  '></div>
+						</div>
+						<div id="friday-availability"class="week-availability">
+							<div timeslot='384'class='slot hour '></div>
+							<div timeslot='385'class='slot  '></div>
+							<div timeslot='386'class='slot thirty-min '></div>
+							<div timeslot='387'class='slot  '></div>
+							<div timeslot='388'class='slot hour '></div>
+							<div timeslot='389'class='slot  '></div>
+							<div timeslot='390'class='slot thirty-min '></div>
+							<div timeslot='391'class='slot  '></div>
+							<div timeslot='392'class='slot hour '></div>
+							<div timeslot='393'class='slot  '></div>
+							<div timeslot='394'class='slot thirty-min '></div>
+							<div timeslot='395'class='slot  '></div>
+							<div timeslot='396'class='slot hour '></div>
+							<div timeslot='397'class='slot  '></div>
+							<div timeslot='398'class='slot thirty-min '></div>
+							<div timeslot='399'class='slot  '></div>
+							<div timeslot='400'class='slot hour '></div>
+							<div timeslot='401'class='slot  '></div>
+							<div timeslot='402'class='slot thirty-min '></div>
+							<div timeslot='403'class='slot  '></div>
+							<div timeslot='404'class='slot hour '></div>
+							<div timeslot='405'class='slot  '></div>
+							<div timeslot='406'class='slot thirty-min '></div>
+							<div timeslot='407'class='slot  '></div>
+							<div timeslot='408'class='slot hour '></div>
+							<div timeslot='409'class='slot  '></div>
+							<div timeslot='410'class='slot thirty-min '></div>
+							<div timeslot='411'class='slot  '></div>
+							<div timeslot='412'class='slot hour '></div>
+							<div timeslot='413'class='slot  '></div>
+							<div timeslot='414'class='slot thirty-min '></div>
+							<div timeslot='415'class='slot  '></div>
+							<div timeslot='416'class='slot hour '></div>
+							<div timeslot='417'class='slot  '></div>
+							<div timeslot='418'class='slot thirty-min '></div>
+							<div timeslot='419'class='slot  '></div>
+							<div timeslot='420'class='slot hour '></div>
+							<div timeslot='421'class='slot  '></div>
+							<div timeslot='422'class='slot thirty-min '></div>
+							<div timeslot='423'class='slot  '></div>
+							<div timeslot='424'class='slot hour '></div>
+							<div timeslot='425'class='slot  '></div>
+							<div timeslot='426'class='slot thirty-min '></div>
+							<div timeslot='427'class='slot  '></div>
+							<div timeslot='428'class='slot hour '></div>
+							<div timeslot='429'class='slot  '></div>
+							<div timeslot='430'class='slot thirty-min '></div>
+							<div timeslot='431'class='slot  '></div>
+							<div timeslot='432'class='slot hour '></div>
+							<div timeslot='433'class='slot  '></div>
+							<div timeslot='434'class='slot thirty-min '></div>
+							<div timeslot='435'class='slot  '></div>
+							<div timeslot='436'class='slot hour '></div>
+							<div timeslot='437'class='slot  '></div>
+							<div timeslot='438'class='slot thirty-min '></div>
+							<div timeslot='439'class='slot  '></div>
+							<div timeslot='440'class='slot hour '></div>
+							<div timeslot='441'class='slot  '></div>
+							<div timeslot='442'class='slot thirty-min '></div>
+							<div timeslot='443'class='slot  '></div>
+							<div timeslot='444'class='slot hour '></div>
+							<div timeslot='445'class='slot  '></div>
+							<div timeslot='446'class='slot thirty-min '></div>
+							<div timeslot='447'class='slot  '></div>
+							<div timeslot='448'class='slot hour '></div>
+							<div timeslot='449'class='slot  '></div>
+							<div timeslot='450'class='slot thirty-min '></div>
+							<div timeslot='451'class='slot  '></div>
+							<div timeslot='452'class='slot hour '></div>
+							<div timeslot='453'class='slot  '></div>
+							<div timeslot='454'class='slot thirty-min '></div>
+							<div timeslot='455'class='slot  '></div>
+							<div timeslot='456'class='slot hour '></div>
+							<div timeslot='457'class='slot  '></div>
+							<div timeslot='458'class='slot thirty-min '></div>
+							<div timeslot='459'class='slot  '></div>
+							<div timeslot='460'class='slot hour '></div>
+							<div timeslot='461'class='slot  '></div>
+							<div timeslot='462'class='slot thirty-min '></div>
+							<div timeslot='463'class='slot  '></div>
+							<div timeslot='464'class='slot hour '></div>
+							<div timeslot='465'class='slot  '></div>
+							<div timeslot='466'class='slot thirty-min '></div>
+							<div timeslot='467'class='slot  '></div>
+							<div timeslot='468'class='slot hour '></div>
+							<div timeslot='469'class='slot  '></div>
+							<div timeslot='470'class='slot thirty-min '></div>
+							<div timeslot='471'class='slot  '></div>
+							<div timeslot='472'class='slot hour '></div>
+							<div timeslot='473'class='slot  '></div>
+							<div timeslot='474'class='slot thirty-min '></div>
+							<div timeslot='475'class='slot  '></div>
+							<div timeslot='476'class='slot hour '></div>
+							<div timeslot='477'class='slot  '></div>
+							<div timeslot='478'class='slot thirty-min '></div>
+							<div timeslot='479'class='slot  '></div>
+						</div>
+						<div id="saturday-availability"class="week-availability">
+							<div timeslot='480'class='slot hour '></div>
+							<div timeslot='481'class='slot  '></div>
+							<div timeslot='482'class='slot thirty-min '></div>
+							<div timeslot='483'class='slot  '></div>
+							<div timeslot='484'class='slot hour '></div>
+							<div timeslot='485'class='slot  '></div>
+							<div timeslot='486'class='slot thirty-min '></div>
+							<div timeslot='487'class='slot  '></div>
+							<div timeslot='488'class='slot hour '></div>
+							<div timeslot='489'class='slot  '></div>
+							<div timeslot='490'class='slot thirty-min '></div>
+							<div timeslot='491'class='slot  '></div>
+							<div timeslot='492'class='slot hour '></div>
+							<div timeslot='493'class='slot  '></div>
+							<div timeslot='494'class='slot thirty-min '></div>
+							<div timeslot='495'class='slot  '></div>
+							<div timeslot='496'class='slot hour '></div>
+							<div timeslot='497'class='slot  '></div>
+							<div timeslot='498'class='slot thirty-min '></div>
+							<div timeslot='499'class='slot  '></div>
+							<div timeslot='500'class='slot hour '></div>
+							<div timeslot='501'class='slot  '></div>
+							<div timeslot='502'class='slot thirty-min '></div>
+							<div timeslot='503'class='slot  '></div>
+							<div timeslot='504'class='slot hour '></div>
+							<div timeslot='505'class='slot  '></div>
+							<div timeslot='506'class='slot thirty-min '></div>
+							<div timeslot='507'class='slot  '></div>
+							<div timeslot='508'class='slot hour '></div>
+							<div timeslot='509'class='slot  '></div>
+							<div timeslot='510'class='slot thirty-min '></div>
+							<div timeslot='511'class='slot  '></div>
+							<div timeslot='512'class='slot hour '></div>
+							<div timeslot='513'class='slot  '></div>
+							<div timeslot='514'class='slot thirty-min '></div>
+							<div timeslot='515'class='slot  '></div>
+							<div timeslot='516'class='slot hour '></div>
+							<div timeslot='517'class='slot  '></div>
+							<div timeslot='518'class='slot thirty-min '></div>
+							<div timeslot='519'class='slot  '></div>
+							<div timeslot='520'class='slot hour '></div>
+							<div timeslot='521'class='slot  '></div>
+							<div timeslot='522'class='slot thirty-min '></div>
+							<div timeslot='523'class='slot  '></div>
+							<div timeslot='524'class='slot hour '></div>
+							<div timeslot='525'class='slot  '></div>
+							<div timeslot='526'class='slot thirty-min '></div>
+							<div timeslot='527'class='slot  '></div>
+							<div timeslot='528'class='slot hour '></div>
+							<div timeslot='529'class='slot  '></div>
+							<div timeslot='530'class='slot thirty-min '></div>
+							<div timeslot='531'class='slot  '></div>
+							<div timeslot='532'class='slot hour '></div>
+							<div timeslot='533'class='slot  '></div>
+							<div timeslot='534'class='slot thirty-min '></div>
+							<div timeslot='535'class='slot  '></div>
+							<div timeslot='536'class='slot hour '></div>
+							<div timeslot='537'class='slot  '></div>
+							<div timeslot='538'class='slot thirty-min '></div>
+							<div timeslot='539'class='slot  '></div>
+							<div timeslot='540'class='slot hour '></div>
+							<div timeslot='541'class='slot  '></div>
+							<div timeslot='542'class='slot thirty-min '></div>
+							<div timeslot='543'class='slot  '></div>
+							<div timeslot='544'class='slot hour '></div>
+							<div timeslot='545'class='slot  '></div>
+							<div timeslot='546'class='slot thirty-min '></div>
+							<div timeslot='547'class='slot  '></div>
+							<div timeslot='548'class='slot hour '></div>
+							<div timeslot='549'class='slot  '></div>
+							<div timeslot='550'class='slot thirty-min '></div>
+							<div timeslot='551'class='slot  '></div>
+							<div timeslot='552'class='slot hour '></div>
+							<div timeslot='553'class='slot  '></div>
+							<div timeslot='554'class='slot thirty-min '></div>
+							<div timeslot='555'class='slot  '></div>
+							<div timeslot='556'class='slot hour '></div>
+							<div timeslot='557'class='slot  '></div>
+							<div timeslot='558'class='slot thirty-min '></div>
+							<div timeslot='559'class='slot  '></div>
+							<div timeslot='560'class='slot hour '></div>
+							<div timeslot='561'class='slot  '></div>
+							<div timeslot='562'class='slot thirty-min '></div>
+							<div timeslot='563'class='slot  '></div>
+							<div timeslot='564'class='slot hour '></div>
+							<div timeslot='565'class='slot  '></div>
+							<div timeslot='566'class='slot thirty-min '></div>
+							<div timeslot='567'class='slot  '></div>
+							<div timeslot='568'class='slot hour '></div>
+							<div timeslot='569'class='slot  '></div>
+							<div timeslot='570'class='slot thirty-min '></div>
+							<div timeslot='571'class='slot  '></div>
+							<div timeslot='572'class='slot hour '></div>
+							<div timeslot='573'class='slot  '></div>
+							<div timeslot='574'class='slot thirty-min '></div>
+							<div timeslot='575'class='slot  '></div>
+						</div>
+						<div id="sunday-availability"class="week-availability">
+							<div timeslot='576'class='slot hour '></div>
+							<div timeslot='577'class='slot  '></div>
+							<div timeslot='578'class='slot thirty-min '></div>
+							<div timeslot='579'class='slot  '></div>
+							<div timeslot='580'class='slot hour '></div>
+							<div timeslot='581'class='slot  '></div>
+							<div timeslot='582'class='slot thirty-min '></div>
+							<div timeslot='583'class='slot  '></div>
+							<div timeslot='584'class='slot hour '></div>
+							<div timeslot='585'class='slot  '></div>
+							<div timeslot='586'class='slot thirty-min '></div>
+							<div timeslot='587'class='slot  '></div>
+							<div timeslot='588'class='slot hour '></div>
+							<div timeslot='589'class='slot  '></div>
+							<div timeslot='590'class='slot thirty-min '></div>
+							<div timeslot='591'class='slot  '></div>
+							<div timeslot='592'class='slot hour '></div>
+							<div timeslot='593'class='slot  '></div>
+							<div timeslot='594'class='slot thirty-min '></div>
+							<div timeslot='595'class='slot  '></div>
+							<div timeslot='596'class='slot hour '></div>
+							<div timeslot='597'class='slot  '></div>
+							<div timeslot='598'class='slot thirty-min '></div>
+							<div timeslot='599'class='slot  '></div>
+							<div timeslot='600'class='slot hour '></div>
+							<div timeslot='601'class='slot  '></div>
+							<div timeslot='602'class='slot thirty-min '></div>
+							<div timeslot='603'class='slot  '></div>
+							<div timeslot='604'class='slot hour '></div>
+							<div timeslot='605'class='slot  '></div>
+							<div timeslot='606'class='slot thirty-min '></div>
+							<div timeslot='607'class='slot  '></div>
+							<div timeslot='608'class='slot hour '></div>
+							<div timeslot='609'class='slot  '></div>
+							<div timeslot='610'class='slot thirty-min '></div>
+							<div timeslot='611'class='slot  '></div>
+							<div timeslot='612'class='slot hour '></div>
+							<div timeslot='613'class='slot  '></div>
+							<div timeslot='614'class='slot thirty-min '></div>
+							<div timeslot='615'class='slot  '></div>
+							<div timeslot='616'class='slot hour '></div>
+							<div timeslot='617'class='slot  '></div>
+							<div timeslot='618'class='slot thirty-min '></div>
+							<div timeslot='619'class='slot  '></div>
+							<div timeslot='620'class='slot hour '></div>
+							<div timeslot='621'class='slot  '></div>
+							<div timeslot='622'class='slot thirty-min '></div>
+							<div timeslot='623'class='slot  '></div>
+							<div timeslot='624'class='slot hour '></div>
+							<div timeslot='625'class='slot  '></div>
+							<div timeslot='626'class='slot thirty-min '></div>
+							<div timeslot='627'class='slot  '></div>
+							<div timeslot='628'class='slot hour '></div>
+							<div timeslot='629'class='slot  '></div>
+							<div timeslot='630'class='slot thirty-min '></div>
+							<div timeslot='631'class='slot  '></div>
+							<div timeslot='632'class='slot hour '></div>
+							<div timeslot='633'class='slot  '></div>
+							<div timeslot='634'class='slot thirty-min '></div>
+							<div timeslot='635'class='slot  '></div>
+							<div timeslot='636'class='slot hour '></div>
+							<div timeslot='637'class='slot  '></div>
+							<div timeslot='638'class='slot thirty-min '></div>
+							<div timeslot='639'class='slot  '></div>
+							<div timeslot='640'class='slot hour '></div>
+							<div timeslot='641'class='slot  '></div>
+							<div timeslot='642'class='slot thirty-min '></div>
+							<div timeslot='643'class='slot  '></div>
+							<div timeslot='644'class='slot hour '></div>
+							<div timeslot='645'class='slot  '></div>
+							<div timeslot='646'class='slot thirty-min '></div>
+							<div timeslot='647'class='slot  '></div>
+							<div timeslot='648'class='slot hour '></div>
+							<div timeslot='649'class='slot  '></div>
+							<div timeslot='650'class='slot thirty-min '></div>
+							<div timeslot='651'class='slot  '></div>
+							<div timeslot='652'class='slot hour '></div>
+							<div timeslot='653'class='slot  '></div>
+							<div timeslot='654'class='slot thirty-min '></div>
+							<div timeslot='655'class='slot  '></div>
+							<div timeslot='656'class='slot hour '></div>
+							<div timeslot='657'class='slot  '></div>
+							<div timeslot='658'class='slot thirty-min '></div>
+							<div timeslot='659'class='slot  '></div>
+							<div timeslot='660'class='slot hour '></div>
+							<div timeslot='661'class='slot  '></div>
+							<div timeslot='662'class='slot thirty-min '></div>
+							<div timeslot='663'class='slot  '></div>
+							<div timeslot='664'class='slot hour '></div>
+							<div timeslot='665'class='slot  '></div>
+							<div timeslot='666'class='slot thirty-min '></div>
+							<div timeslot='667'class='slot  '></div>
+							<div timeslot='668'class='slot hour '></div>
+							<div timeslot='669'class='slot  '></div>
+							<div timeslot='670'class='slot thirty-min '></div>
+							<div timeslot='671'class='slot  '></div>
+						</div>
+					</div>
+				</div>
+				<div class="button-container">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</form>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+	<script id='select_availability' src="{% static "js/select_availability.js" %}"></script>
+	
+	<script>
+		var selected = {{ unavailibility_blocks | safe}}
+		selected.forEach( function (item) {
+			$("[timeslot='"+item+"']").addClass("highlighted");
+		})
+	</script>
+
+</body>
+</html>

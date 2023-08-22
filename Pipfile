@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+psycopg2 = "*"
+bootstrap4 = "*"
+django-crispy-forms = "*"
+django-bootstrap-modal-forms = "*"
+crispy-bootstrap5 = "*"
+django-widget-tweaks = "*"
+pyzipcode = "*"
+pytz = "*"
+django-bootstrap-datepicker-plus = "*"
+django-bootstrap5 = "*"
+django-livereload-server = "*"
+pytest-django = "*"
+django-bootstrap-daterangepicker = "*"
+python-dotenv = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

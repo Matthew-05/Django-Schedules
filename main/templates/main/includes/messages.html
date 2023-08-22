@@ -1,0 +1,10 @@
+{% for message in messages %}
+<script>
+  $.bootstrapGrowl('{{ message }}',{
+    width: 'auto',
+    align: 'center',
+    type: '{{ message.tags }}',
+    offset: {from: 'top', amount: 40},
+  });
+</script>
+{% endfor %}

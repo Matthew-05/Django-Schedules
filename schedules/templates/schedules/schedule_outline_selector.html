@@ -1,0 +1,26 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+Schedule Outlines
+<b>{{ business.name }}</b>
+
+{% if roles %}
+
+{% for role, skeleton in list %}
+
+<ul>
+{{ role.role_name }} <a href="{% url 'view_shift_outline' business.id skeleton.id %}">Edit this Role's Schedule Skeleton</a>
+</ul>
+
+{% endfor %}
+
+{% else %}
+
+Make a role
+
+{% endif %}
+
+{% endblock %}

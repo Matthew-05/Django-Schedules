@@ -1,0 +1,19 @@
+{% extends 'main/corporate_base.html' %}
+{% block content %}
+
+
+This is Corporate Dashboard
+
+
+{% if listed_user_businesses %}
+
+{% for business in listed_user_businesses %}
+        <a href="{% url 'corporate_dashboard' business.id %}">{{ business.name }}</a>
+{% endfor %}
+
+{% else %}
+<a href=/corporate/business/create>Create a business</a>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "main/corporate_base.html" %}
+
+{% load static %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+<link rel="stylesheet" href="{% static "css/calendar.css" %}"/>
+
+Corporate Time Off
+<b>{{ business.name }}</b>
+<head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+  <script>const csrfToken = '{{ csrf_token }}';</script>
+  <script> const employeeData = '{{ empoloyee_data }}';</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<body>
+    <div id="loading-spinner"></div>
+    <div class="content-container">
+        <div class="sidebar-container">
+            <div class="notification-container" onclick="togglePopper()">
+                <div class="notification-icon-container">
+                    <i class="fa-regular fa-envelope fa-lg"></i>
+                    <span class="notification-badge" id="notificationCount"></span>
+                </div>
+                <div class="icon-text">Pending Requests</div>
+            </div>
+            <div class="new-time-off-container" data-bs-toggle="modal" data-bs-target="#addTimeOffModal">
+                <div class="time-off-icon-container">
+                    <i class="fa-regular fa-calendar-plus fa-lg"></i>
+                </div>
+                <div class="icon-text" >New Time Off</div>
+            </div>
+            <div class="new-time-off-container" onclick="toggleDeniedPopper()">
+              <div class="time-off-icon-container">
+                  <i class="fa-regular fa-calendar-xmark fa-lg"></i>
+              </div>
+              <div class="icon-text" >Denied Requests</div>
+          </div>
+            <div class="popper-container" id="popperContainer">
+                <div class="popper-content" id="popperContent"></div>
+            </div>
+            <div class="popper-container" id="deniedPopperContainer">
+              <div class="popper-content" id="deniedPopperContent"></div>
+          </div>
+            <input class="filter-bar" type="text" id="filterInput" oninput="applyFilter()" placeholder="Filter events">
+            <div class="holiday-toggle">
+                <input type="checkbox" id="fetchHolidaysCheckbox" onchange="toggleHolidays()" />
+                <label for="fetchHolidaysCheckbox">Show Holidays</label>
+            </div>
+            <!-- Role Filtering -->
+            {% if all_roles_in_business %}
+
+            {% for role in all_roles_in_business %}
+            <label>
+              <input type="checkbox" name="roleFilters" value="{{ role.role_name }}" onclick="handleCheckbox(this)">
+              {{ role.role_name }}
+            </label>
+            {% endfor %}
+
+            {% endif %}
+
+            
+          </div>
+        <div class="calendar-container">
+            <!-- Calendar Header -->
+            <div class="calendar-header">
+                <button class="navigate-month-left" onclick="showPreviousMonth()"><</button>
+                <h2 id="monthCaption"></h2>
+                <button class="navigate-month-right" onclick="showNextMonth()">></button>
+            </div>
+            <!-- Calendar -->
+            <div class="calendar">
+                <div class="calendar-weekdays"></div>
+                <div class="calendar-body" id="calendarBody"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="businessID" data-backend-data="{{ business.id }}"></div>
+    <script src="https://unpkg.com/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="{% static "js/calendar.js" %}"></script>
+</body>
+
+<div class="modal fade" id="addTimeOffModal" tabindex="-1" aria-labelledby="addTimeOff" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="addNewTimeOff" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Time Off</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% crispy add_new_time_off_form %}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+				  <button type="submit" class="btn btn-primary">Save</button>
+        <div class="modal-footer">
+        </div>
+      </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    console.log(moment())
+      // Replace 'id_your_date_field' with the actual ID of your date field.
+      $('#id_Start_and_End_Dates').daterangepicker({
+          startDate: moment(), // Replace this with your desired minimum date
+          minDate: moment(),
+      });
+  });
+</script>
+{% endblock %}

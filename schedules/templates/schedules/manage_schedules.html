@@ -1,0 +1,26 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+Manage Schedules
+<b>{{ business.name }}</b>
+
+{% if roles %}
+
+{% for role in roles %}
+
+<ul>
+{{ role.role_name }} <a href="{% url 'view_schedule' business.id role.id %}">Manage this role's schedule</a>
+</ul>
+
+{% endfor %}
+
+{% else %}
+
+Create a role and a shift outline for it first
+
+{% endif %}
+
+{% endblock %}

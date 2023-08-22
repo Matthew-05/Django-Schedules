@@ -1,0 +1,12 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+Dashboard
+<b>{{ business.name }}</b>
+<a href="{% url 'business_settings' business.id %}">Business Settings</a>
+
+
+{% endblock %}

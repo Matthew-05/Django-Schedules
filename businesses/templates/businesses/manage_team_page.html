@@ -1,0 +1,74 @@
+{% extends "main/corporate_base.html" %}
+
+{% load static %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+<script src="https://unpkg.com/htmx.org@1.8.5" integrity="sha384-7aHh9lqPYGYZ7sTHvzP1t3BAfLhYSTy9ArHdP3Xsr9/3TlGurYgcPBoFmXX2TX/w" crossorigin="anonymous"></script>
+Manage Team Invited
+<b>{{ business.name }}</b>
+<div id="modal" class="modal fade" tabindex="-1">
+  <div id="dialog" class="modal-dialog modal-lg" hx-target="this">
+          <!-- Inject HTML Here -->
+  </div>
+</div>
+
+<button hx-get="{% url 'invite_user' business.id %}" hx-target="#dialog" class="btn htmx-modal-button btn-primary">
+  Invite User
+</button>
+
+{% load tz %}
+
+<table id="invited" class="display" style="width:100%">
+  <thead>
+    <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Primary Role</th>
+    <th>Other Roles</th>
+    <th>Acceptance Status</th>
+    <th>Date Added</th>
+    <th>Availability</th>
+    <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in invited_users %}
+    <tr>
+      <td>{{user.first_name}}</td>
+      <td>{{user.last_name}}</td>
+      <td>{{user.invited_email}}</td>
+      <td>{{user.primary_role}}</td>
+      <td>{{user.secondary_roles.all|join:", " }}</td>
+      <td>{{user.accepted}}</td>
+      <td>{{user.date_invited|localtime}}</td>
+      <td>
+        <button hx-get="{% url 'edit_unavailibility_blocks' user.id %}" hx-target="#dialog" class="btn htmx-modal-button">
+          <i class="fa-solid fa-calendar-days"></i>
+        </button>
+      </td>
+      <td>
+        <button hx-get="{% url 'edit_employee' user.id %}" hx-target="#dialog" class="btn htmx-modal-button">
+          <i class="fa-solid fa-pencil"></i>
+        </button>
+        <button hx-get="{% url 'remove_employee' user.id %}" hx-target="#dialog" class="btn htmx-modal-button">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+<script type = "text/javascript">
+  $(document).ready(function () {
+    $('#invited').DataTable({
+      "order": [3, 'desc']
+  });
+  });
+</script>
+<script src="{% static "dialog.js" %}"></script>
+{% endblock %}

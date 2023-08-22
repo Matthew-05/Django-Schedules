@@ -1,0 +1,73 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load static %}
+
+{% load crispy_forms_tags %}         
+
+Schedule
+<b>{{ business.name }}</b>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{% static "css/jquery.timepicker.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/schedule_style.css" %}"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+  </head>
+  <script>
+    var csrfToken = '{{ csrf_token }}';
+  </script>
+  
+  
+  <div class="content-container">
+    <div class="sidebar-container" id="sidebar-container">
+      <div id="edit-or-new-shift-container">
+      </div>
+    </div>
+    <div class="table-container">
+      <div class="above-table-container">
+        <div id="table-title"></div>
+        <div class="date-navigation-container">
+          <button id="prevMonthBtn">Previous Week</button>
+          <input type="text" id="datepicker" style="display: none;">
+          <i class="fa-regular fa-calendar" id="calendar-icon"></i>
+          <button id="nextMonthBtn">Next Week</button>
+        </div>
+     </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee Name</th>
+            <th>Role</th>
+            <th id="col0"></th>
+            <th id="col1"></th>
+            <th id="col2"></th>
+            <th id="col3"></th>
+            <th id="col4"></th>
+            <th id="col5"></th>
+            <th id="col6"></th>
+          </tr>
+        </thead>
+        <tbody id="scheduleBody">
+          <!-- Table rows will be dynamically added here using JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  
+    <div id="optionModal" class="modal">
+      <div id ="modalContent" class="modal-content">
+    </div>
+  </div>
+  
+  <script src="{% static "js/jquery.timepicker.js" %}"></script>
+
+<div id="roleID" data-backend-data="{{ role.id }}"></div>
+<div id="businessID" data-backend-data="{{ business.id }}"></div>
+<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
+<script src="{% static "js/schedulemanager.js" %}"></script>
+<script src="//localhost:35729/livereload.js"></script>
+</body>
+
+{% endblock %}

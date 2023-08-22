@@ -1,0 +1,15 @@
+{% extends "main/corporate_base.html" %}
+
+{% block content %} 
+
+{% load static %}
+
+{% load crispy_forms_tags %}         
+
+Schedule
+<b>{{ business.name }}</b>
+
+<a href="{% url 'schedule_outline_page' business.id %}">Manage Shift Outlines</a>
+<a href="{% url 'manage_schedules' business.id %}">Manage Schedule</a>
+
+{% endblock %}

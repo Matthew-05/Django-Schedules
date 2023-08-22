@@ -1,0 +1,484 @@
+.popper-container {
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 999; /* Ensure the container appears on top of other elements */
+}
+
+.accept-button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: green;
+}
+
+.reject-button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: red;
+}
+
+.only-this-button {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.change-accept {
+  display: flex;
+  justify-content: center;
+  color: green;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  margin: 0 20px;
+  height: auto;
+}
+
+.notification-icon-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.icon-text {
+  padding-left: 10px;
+}
+
+.notification-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  padding-bottom: 8px;
+}
+
+
+.denied-time-off-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+.new-time-off-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 8px;
+  cursor: pointer;
+}
+
+.time-off-icon-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.notification-badge {
+  position: relative;
+  top: -15px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background-color: red; 
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.fa-lg {
+  font-size: 50px;
+  cursor: pointer;
+}
+
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 20px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  height: 80%;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 30px;
+  width: 10%;
+}
+
+.above-calendar {
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar-cell-previous-month,
+.calendar-cell-next-month {
+  background-color: #ac1f1f;
+}
+
+.monthCaption {
+  width: 100%;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+
+.navigate-month-left {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  padding-left: 30%;
+}
+
+.navigate-month-right {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  padding-right: 30%;
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: -1px;
+  background-color: #eaeaea;
+  height: 100%;
+  width: 100%;
+}
+
+.calendar-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  padding: 2px;
+  height: 115;
+  border: 1px solid #ccc;
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-date {
+  margin: auto;
+  font-weight: bold;
+}
+
+.calendar-event-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+  width: 100%;
+}
+
+.denied-event-item-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3px;
+  margin: 0 20%;
+  padding-bottom: 5px;
+}
+.calendar-event {
+  background-color: yellow;
+  border-radius: 8px;
+  border: 1px solid#000000;
+  margin-bottom: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:auto;
+  cursor: pointer;
+  height: 27px;
+  vertical-align: middle;
+}
+
+.calendar-event {
+  background-color: yellow;
+  border-radius: 7px;
+  border: 1px solid #000000;
+  padding: 2px 5px;
+  margin-bottom: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:auto;
+  cursor: pointer;
+}
+
+.holiday-event {
+  background-color: rgb(30, 154, 255);
+  border-radius: 10px;
+  border: 1px solid #000000;
+  padding: 2px 5px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:auto;
+}
+
+.fa-times-circle {
+  color: red;
+}
+
+.fa-check-circle {
+  color: green;
+}
+
+.popper-container {
+  position: absolute;
+  display: flex;
+  z-index: 1;
+  top: 30px;
+  right: 0;
+  width: 200px;
+  background-color: #f9f9f9;
+  padding: 3px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.popper-content {
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+}
+.event-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+  width: 100%;
+  background-color: #dddddd;
+}
+.expired-event-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+  width: 100%;
+  background-color: #919191;
+}
+.event-item-name {
+  font-weight: bold;
+  margin: auto;
+}
+.event-item-date {
+  color: #494949;
+  text-align: center;
+}
+.event-item-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+  margin: 0 20%;
+  padding-bottom: 5px;
+}
+
+.more-details{
+  border: none;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #000000;
+  margin: 0 5px;
+  margin-top: 3px;
+}
+
+.event-item-actions button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+.event-item-actions button:hover {
+  color: #a8a8a8;
+}
+
+.denied-event-item-actions button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+}
+.denied-event-item-actions button:hover {
+  color: #a8a8a8;
+}
+
+.calendar-event-more {
+  background-color: rgb(185, 185, 185);
+  border-radius: 10px;
+  border: 1px solid #000000;
+  color: rgb(18, 144, 194);
+  padding: 2px 5px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.floating-container {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 2px;
+  z-index: 100;
+  display: none; /* Hide the popup by default */
+}
+
+.event-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.event-list li {
+  background-color: yellow;
+  padding: 2px 5px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:auto;
+  margin-bottom: 5px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background-color: #eaeaea;
+  width: 100%;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.calendar-weekdays .calendar-cell {
+  background-color: #eaeaea;
+  border: none;
+  height: auto;
+  padding: 2px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-cell-previous-month {
+  background-color: #e2e2e2;
+}
+
+.calendar-cell-future-month {
+  background-color: #e2e2e2;
+}
+
+.calendar-date.current-date {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+}
+
+.red {
+  color: red;
+}
+
+.calendar-date.current-date::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: rgb(0, 37, 248);
+  z-index: -1; /* Add this line to position the circle behind the number */
+}
+
+.filter-bar {
+  margin-bottom: 5px;
+  height: 30px;
+}
+
+.holiday-toggle {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.option-bar-container {
+  display: flex;
+  width: 300px;
+  flex-direction: row;
+  gap: 10px;
+}

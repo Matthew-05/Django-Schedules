@@ -1,0 +1,1 @@
+document.getElementById('id_unavailable_blocks').value=unavailable_blocks

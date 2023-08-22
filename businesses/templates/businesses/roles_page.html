@@ -1,0 +1,57 @@
+{% extends "main/corporate_base.html" %}
+
+{% load static %}
+
+{% block content %} 
+
+{% load crispy_forms_tags %}         
+
+Roles
+<b>{{ business.name }}</b>
+<div id="modal" class="modal fade" tabindex="-1">
+    <div id="dialog" class="modal-dialog" hx-target="this">
+            <!-- Inject HTML Here -->
+    </div>
+</div>
+
+
+
+<button hx-get="{% url 'create_role' business.id %}" hx-target="#dialog" class="btn btn-primary">
+    Create New Role
+</button>
+
+<div>
+<table id="roles" class="display" style="width:100%">
+    <thead>
+      <tr>
+      <th>Role</th>
+      <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for role in created_roles %}
+      <tr>
+        <td>{{role.role_name}}</td>
+        <td>
+          <button hx-get="{% url 'edit_role' role.id %}" hx-target="#dialog" class="btn">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button hx-get="{% url 'delete_role' role.id %}" hx-target="#dialog" class="btn">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+</div>
+
+
+<script type = "text/javascript">
+  $(document).ready(function () {
+    $('#roles').DataTable();
+  });
+  </script>
+<script src="{% static "dialog.js" %}"></script>
+{% endblock %}
