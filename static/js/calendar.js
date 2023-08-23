@@ -42,8 +42,13 @@ function fetchTimeOffs() {
     success: function(response) {
       // Set the variable value
       allEvents = response;
+      if (allEvents) {
+        events = allEvents
+      }
+      else {
+        events = allEvents.filter(event => event.accepted=="accepted")
+      }
       
-      events = allEvents.filter(event => event.accepted=="accepted")
 
       // Call any other function that depends on the variable value
       updateNotificationCount()
@@ -90,6 +95,7 @@ function uncheckCheckbox(checkboxId) {
 let showHolidays = false;
 let filtering = false;
 let fetchedHolidays = false;
+let eventMatches;
 
 function toggleHolidays() {
   showHolidays = !showHolidays;
@@ -180,70 +186,71 @@ async function generateCalendar(filteredEvents = events) {
         dateContainer.classList.add('current-date');
       }
 
-
-      const eventMatches = filteredEvents.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        const eventEndDate = new Date(event.endDate);
-        const holidayFlag = event.holidayFlag;
-        eventEndDate.setDate(eventEndDate.getDate() + 1);
-        return (
-          currentDate >= eventStartDate && currentDate < eventEndDate
-        );
-      });
-
-      const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
-      const visibleEvents = eventMatches.slice(0, maxEventsToShow);
-
-      visibleEvents.forEach(event => {
-        const eventDiv = document.createElement('div');
-        eventDiv.classList.add('calendar-event');
+      if (Object.keys(filteredEvents).length !==  0) {
+        const eventMatches = filteredEvents.filter(event => {
+          const eventStartDate = new Date(event.startDate);
+          const eventEndDate = new Date(event.endDate);
+          const holidayFlag = event.holidayFlag;
+          eventEndDate.setDate(eventEndDate.getDate() + 1);
+          return (
+            currentDate >= eventStartDate && currentDate < eventEndDate
+          );
+        });
         
-        eventDiv.textContent = event.title;
-        eventsContainer.appendChild(eventDiv);
+        const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
+        const visibleEvents = eventMatches.slice(0, maxEventsToShow);
 
-        if (event.holidayFlag == true) {
-          eventDiv.classList.add('holiday-event');
-        };
-
-        if (event.holidayFlag == false) {
-          eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
-          eventDiv.setAttribute("role", event.role)
-          const popperElement = createEventPopperElement(event);
+        visibleEvents.forEach(event => {
+          const eventDiv = document.createElement('div');
           eventDiv.classList.add('calendar-event');
-          eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
-        };
-      });
-
-      if (eventMatches.length > maxEventsToShow + 1) {
-        const remainingEventsCount = eventMatches.length - maxEventsToShow;
-
-        if (remainingEventsCount < 0) {
-          visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
-        } else {
-          visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
-        }
-
-        const moreButton = document.createElement('div');
-        moreButton.classList.add('calendar-event');
-        moreButton.classList.add('calendar-event-more');
-        moreButton.textContent = `(${remainingEventsCount} more)`;
-        eventsContainer.appendChild(moreButton);
-
-        const eventList = document.createElement('ul');
-        eventList.classList.add('event-list');
-
-        eventMatches.slice(maxEventsToShow).forEach(event => {
-          const eventListItem = document.createElement('li');
-          eventListItem.textContent = event.title;
-          eventList.appendChild(eventListItem);
           
-          const popperElement = createEventPopperElement(event);
-          eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
-          
+          eventDiv.textContent = event.title;
+          eventsContainer.appendChild(eventDiv);
+
+          if (event.holidayFlag == true) {
+            eventDiv.classList.add('holiday-event');
+          };
+
+          if (event.holidayFlag == false) {
+            eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
+            eventDiv.setAttribute("role", event.role)
+            const popperElement = createEventPopperElement(event);
+            eventDiv.classList.add('calendar-event');
+            eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
+          };
         });
 
-        const popperElement = createPopperElement(moreButton, eventList);
-        moreButton.addEventListener('click', () => showPopper(popperElement));
+        if (eventMatches.length > maxEventsToShow + 1) {
+          const remainingEventsCount = eventMatches.length - maxEventsToShow;
+
+          if (remainingEventsCount < 0) {
+            visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
+          } else {
+            visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
+          }
+
+          const moreButton = document.createElement('div');
+          moreButton.classList.add('calendar-event');
+          moreButton.classList.add('calendar-event-more');
+          moreButton.textContent = `(${remainingEventsCount} more)`;
+          eventsContainer.appendChild(moreButton);
+
+          const eventList = document.createElement('ul');
+          eventList.classList.add('event-list');
+
+          eventMatches.slice(maxEventsToShow).forEach(event => {
+            const eventListItem = document.createElement('li');
+            eventListItem.textContent = event.title;
+            eventList.appendChild(eventListItem);
+            
+            const popperElement = createEventPopperElement(event);
+            eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
+            
+          });
+
+          const popperElement = createPopperElement(moreButton, eventList);
+          moreButton.addEventListener('click', () => showPopper(popperElement));
+        }
       }
 
 
@@ -260,69 +267,70 @@ async function generateCalendar(filteredEvents = events) {
       dateContainer.appendChild(dateNumber);
 
       const currentDate = new Date(previousYear, previousMonth, previousMonthDate);
+      if (Object.keys(filteredEvents).length !==  0) {
+        const eventMatches = filteredEvents.filter(event => {
+          const eventStartDate = new Date(event.startDate);
+          const eventEndDate = new Date(event.endDate);
+          eventEndDate.setDate(eventEndDate.getDate() + 1);
+          return (
+            currentDate >= eventStartDate && currentDate < eventEndDate
+          );
+        });
+      
+        const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
+        const visibleEvents = eventMatches.slice(0, maxEventsToShow);
 
-      const eventMatches = filteredEvents.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        const eventEndDate = new Date(event.endDate);
-        eventEndDate.setDate(eventEndDate.getDate() + 1);
-        return (
-          currentDate >= eventStartDate && currentDate < eventEndDate
-        );
-      });
-
-      const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
-      const visibleEvents = eventMatches.slice(0, maxEventsToShow);
-
-      visibleEvents.forEach(event => {
-        const eventDiv = document.createElement('div');
-        eventDiv.classList.add('calendar-event');
-        
-        eventDiv.textContent = event.title;
-        eventsContainer.appendChild(eventDiv);
-
-        if (event.holidayFlag == true) {
-          eventDiv.classList.add('holiday-event');
-        };
-
-        if (event.holidayFlag == false) {
-          eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
-          eventDiv.setAttribute("role", event.role)
-          const popperElement = createEventPopperElement(event);
+        visibleEvents.forEach(event => {
+          const eventDiv = document.createElement('div');
           eventDiv.classList.add('calendar-event');
-          eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
-        };
-      });
-
-      if (eventMatches.length > maxEventsToShow + 1) {
-        const remainingEventsCount = eventMatches.length - maxEventsToShow;
-
-        if (remainingEventsCount < 0) {
-          visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
-        } else {
-          visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
-        }
-
-        const moreButton = document.createElement('div');
-        moreButton.classList.add('calendar-event');
-        moreButton.classList.add('calendar-event-more');
-        moreButton.textContent = `(${remainingEventsCount} more)`;
-        eventsContainer.appendChild(moreButton);
-
-        const eventList = document.createElement('ul');
-        eventList.classList.add('event-list');
-
-        eventMatches.slice(maxEventsToShow).forEach(event => {
-          const eventListItem = document.createElement('li');
-          eventListItem.textContent = event.title;
-          eventList.appendChild(eventListItem);
           
-          const popperElement = createEventPopperElement(event);
-          eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
-          
+          eventDiv.textContent = event.title;
+          eventsContainer.appendChild(eventDiv);
+
+          if (event.holidayFlag == true) {
+            eventDiv.classList.add('holiday-event');
+          };
+
+          if (event.holidayFlag == false) {
+            eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
+            eventDiv.setAttribute("role", event.role)
+            const popperElement = createEventPopperElement(event);
+            eventDiv.classList.add('calendar-event');
+            eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
+          };
         });
 
-        const popperElement = createPopperElement(moreButton, eventList);
-        moreButton.addEventListener('click', () => showPopper(popperElement));
+        if (eventMatches.length > maxEventsToShow + 1) {
+          const remainingEventsCount = eventMatches.length - maxEventsToShow;
+
+          if (remainingEventsCount < 0) {
+            visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
+          } else {
+            visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
+          }
+
+          const moreButton = document.createElement('div');
+          moreButton.classList.add('calendar-event');
+          moreButton.classList.add('calendar-event-more');
+          moreButton.textContent = `(${remainingEventsCount} more)`;
+          eventsContainer.appendChild(moreButton);
+
+          const eventList = document.createElement('ul');
+          eventList.classList.add('event-list');
+
+          eventMatches.slice(maxEventsToShow).forEach(event => {
+            const eventListItem = document.createElement('li');
+            eventListItem.textContent = event.title;
+            eventList.appendChild(eventListItem);
+            
+            const popperElement = createEventPopperElement(event);
+            eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
+            
+          });
+
+          const popperElement = createPopperElement(moreButton, eventList);
+          moreButton.addEventListener('click', () => showPopper(popperElement));
+        }
       }
 
     } else {
@@ -339,70 +347,70 @@ async function generateCalendar(filteredEvents = events) {
 
       const currentDate = new Date(futureYear, futureMonth, futureMonthDate);
 
-      const eventMatches = filteredEvents.filter(event => {
-        const eventStartDate = new Date(event.startDate);
-        const eventEndDate = new Date(event.endDate);
-        eventEndDate.setDate(eventEndDate.getDate() + 1);
-        return (
-          currentDate >= eventStartDate && currentDate < eventEndDate
-        );
-      });
+      if (Object.keys(filteredEvents).length !==  0) {
+        const eventMatches = filteredEvents.filter(event => {
+          const eventStartDate = new Date(event.startDate);
+          const eventEndDate = new Date(event.endDate);
+          eventEndDate.setDate(eventEndDate.getDate() + 1);
+          return (
+            currentDate >= eventStartDate && currentDate < eventEndDate
+          );
+        });
+        const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
+        const visibleEvents = eventMatches.slice(0, maxEventsToShow);
 
-      const maxEventsToShow = eventMatches.length > presetMaxEvents ? presetMaxEvents - 1 : presetMaxEvents;
-      const visibleEvents = eventMatches.slice(0, maxEventsToShow);
-
-      visibleEvents.forEach(event => {
-        const eventDiv = document.createElement('div');
-        eventDiv.classList.add('calendar-event');
-        
-        eventDiv.textContent = event.title;
-        eventsContainer.appendChild(eventDiv);
-
-        if (event.holidayFlag == true) {
-          eventDiv.classList.add('holiday-event');
-        };
-
-        if (event.holidayFlag == false) {
-          eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
-          eventDiv.setAttribute("role", event.role)
-          const popperElement = createEventPopperElement(event);
+        visibleEvents.forEach(event => {
+          const eventDiv = document.createElement('div');
           eventDiv.classList.add('calendar-event');
-          eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
-        };
-      });
-
-      if (eventMatches.length > maxEventsToShow + 1) {
-        const remainingEventsCount = eventMatches.length - maxEventsToShow;
-
-        if (remainingEventsCount < 0) {
-          visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
-        } else {
-          visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
-        }
-
-        const moreButton = document.createElement('div');
-        moreButton.classList.add('calendar-event');
-        moreButton.classList.add('calendar-event-more');
-        moreButton.textContent = `(${remainingEventsCount} more)`;
-        eventsContainer.appendChild(moreButton);
-
-        const eventList = document.createElement('ul');
-        eventList.classList.add('event-list');
-
-        eventMatches.slice(maxEventsToShow).forEach(event => {
-          const eventListItem = document.createElement('li');
-          eventListItem.textContent = event.title;
-          eventList.appendChild(eventListItem);
           
-          const popperElement = createEventPopperElement(event);
-          eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
-          
+          eventDiv.textContent = event.title;
+          eventsContainer.appendChild(eventDiv);
+
+          if (event.holidayFlag == true) {
+            eventDiv.classList.add('holiday-event');
+          };
+
+          if (event.holidayFlag == false) {
+            eventDiv.setAttribute("eventID", parseInt(event.timeOffID))
+            eventDiv.setAttribute("role", event.role)
+            const popperElement = createEventPopperElement(event);
+            eventDiv.classList.add('calendar-event');
+            eventDiv.addEventListener('click', showPopper.bind(null, popperElement));
+          };
         });
 
-        const popperElement = createPopperElement(moreButton, eventList);
-        moreButton.addEventListener('click', () => showPopper(popperElement));
-      }
+        if (eventMatches.length > maxEventsToShow + 1) {
+          const remainingEventsCount = eventMatches.length - maxEventsToShow;
 
+          if (remainingEventsCount < 0) {
+            visibleEvents.push(...eventMatches.slice(maxEventsToShow - 1));
+          } else {
+            visibleEvents.push(...eventMatches.slice(0, maxEventsToShow - 1));
+          }
+
+          const moreButton = document.createElement('div');
+          moreButton.classList.add('calendar-event');
+          moreButton.classList.add('calendar-event-more');
+          moreButton.textContent = `(${remainingEventsCount} more)`;
+          eventsContainer.appendChild(moreButton);
+
+          const eventList = document.createElement('ul');
+          eventList.classList.add('event-list');
+
+          eventMatches.slice(maxEventsToShow).forEach(event => {
+            const eventListItem = document.createElement('li');
+            eventListItem.textContent = event.title;
+            eventList.appendChild(eventListItem);
+            
+            const popperElement = createEventPopperElement(event);
+            eventListItem.addEventListener('click', showPopper.bind(null, popperElement));
+            
+          });
+
+          const popperElement = createPopperElement(moreButton, eventList);
+          moreButton.addEventListener('click', () => showPopper(popperElement));
+        }
+      }
     }
 
     cell.appendChild(dateContainer);
@@ -542,12 +550,18 @@ function hidePopper(popperElement) {
 
 function countUnacceptedEvents(events) {
   let count = 0;
-  for (const event of events) {
-    if (event.accepted == "pending") {
-      count++;
+  if (Object.keys(events).length !==  0) {
+    for (const event of events) {
+      if (event.accepted == "pending") {
+        count++;
+      }
     }
+    return count;
   }
-  return count;
+  else {
+    return 0;
+  }
+  
 }
 
 
@@ -599,32 +613,34 @@ function formatDate(date) {
 }
 
 function updateNotificationPopper() {
-  const unacceptedEvents = allEvents.filter(event => event.accepted == "pending");
-  if (unacceptedEvents.length > 0) {
-    const popperContentHTML = unacceptedEvents
-      .map(
-        event => `
-          <div class="event-item">
-            <div class="event-item-name">${event.title}</div>
-            <div class="event-item-date">${formatDate(event.startDate)} - ${formatDate(event.endDate)}</div>
-            <div class="event-item-actions">
-              <button class="accept-button" onclick="acceptEvent(event, ${event.timeOffID})">
-                <i class="fa-regular fa-check-circle"></i>
-                Accept
-              </button>
-              <button class="reject-button" onclick="rejectEvent(event, ${event.timeOffID})">
-                <i class="fa-regular fa-times-circle"></i>
-                Deny
-              </button>
+  if (Object.keys(events).length !==  0) {
+    const unacceptedEvents = allEvents.filter(event => event.accepted == "pending");
+    if (unacceptedEvents.length > 0) {
+      const popperContentHTML = unacceptedEvents
+        .map(
+          event => `
+            <div class="event-item">
+              <div class="event-item-name">${event.title}</div>
+              <div class="event-item-date">${formatDate(event.startDate)} - ${formatDate(event.endDate)}</div>
+              <div class="event-item-actions">
+                <button class="accept-button" onclick="acceptEvent(event, ${event.timeOffID})">
+                  <i class="fa-regular fa-check-circle"></i>
+                  Accept
+                </button>
+                <button class="reject-button" onclick="rejectEvent(event, ${event.timeOffID})">
+                  <i class="fa-regular fa-times-circle"></i>
+                  Deny
+                </button>
+              </div>
             </div>
-          </div>
-        `
-      )
-      .join('');
-    popperContent.innerHTML = popperContentHTML;
-  } else {
-    popperContent.innerHTML = '<p>No unaccepted events</p>';
-  }
+          `
+        )
+        .join('');
+      popperContent.innerHTML = popperContentHTML;
+    } else {
+      popperContent.innerHTML = '<p>No unaccepted events</p>';
+    }  
+  };
 }
 
 function createListItem(instance) {
@@ -680,29 +696,31 @@ function compareDatesDescending(a, b) {
 }
 
 function populateDeniedPopperContent() {
-  const preDeniedEvents = allEvents.filter(event => event.accepted == "denied")
+  if (Object.keys(events).length !==  0) {
+    const preDeniedEvents = allEvents.filter(event => event.accepted == "denied")
   
-  const deniedEvents = convertToDateObjects(preDeniedEvents);
-  deniedEvents.sort((a, b) => b.startDate - a.startDate)
-  const futureEventsDenied = [];
-  const pastEventsDenied = [];
-
-  deniedEvents.forEach((instance) => {
-    if (instance.accepted === 'denied') {
-      if (isFutureDate(instance.startDate)) {
-        futureEventsDenied.push(instance);
-      } else {
-        pastEventsDenied.push(instance);
+    const deniedEvents = convertToDateObjects(preDeniedEvents);
+    deniedEvents.sort((a, b) => b.startDate - a.startDate)
+    const futureEventsDenied = [];
+    const pastEventsDenied = [];
+  
+    deniedEvents.forEach((instance) => {
+      if (instance.accepted === 'denied') {
+        if (isFutureDate(instance.startDate)) {
+          futureEventsDenied.push(instance);
+        } else {
+          pastEventsDenied.push(instance);
+        }
       }
-    }
-  });
-
+    });
   
-
-  // Generate the HTML content for sorted denied instances
-  const deniedPopperContent = document.getElementById('deniedPopperContent');
-  deniedPopperContent.innerHTML = `${deniedEvents.map(createListItem).join('')}`;
-}
+    
+  
+    // Generate the HTML content for sorted denied instances
+    const deniedPopperContent = document.getElementById('deniedPopperContent');
+    deniedPopperContent.innerHTML = `${deniedEvents.map(createListItem).join('')}`;
+  };
+};
 
 
 
