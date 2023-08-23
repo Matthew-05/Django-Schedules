@@ -14,9 +14,7 @@ from django.urls import reverse
 #Condition Checks
 def is_corporate(request):
     user = request.user
-    print(request.user)
-    #print(user.objects.only('is_corporate'))
-    return user.groups.filter(name="corporate").exists()
+    return user.is_corporate
 
 def user_businesses(request):
     user = request.user
