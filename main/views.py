@@ -41,6 +41,7 @@ def landing_page(request):
             pass
             return redirect(login_landing_page)
     else:
+        print("User not logged in")
         corporate_register_form = CorporateUserForm()
         employee_register_form = UserFormFromEmail()
         return render(request=request, template_name='main/landing_page.html', context={"corporate_register_form":corporate_register_form, "employee_register_form":employee_register_form})
@@ -139,6 +140,7 @@ def register_corporate(request):
             groups = Group.objects.filter(name='corporate')
             user.groups.add(*groups)
             login(request, user)
+            print("Sucessful Registration")
             messages.success(request, "Registration successful." )
             return redirect("corporate_login_landing_page")
         else:
@@ -152,17 +154,23 @@ def register_corporate(request):
 #Login
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        print(request.POST.get('email'))
+        print(request.POST.get('password'))
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
+        print(user)
         if user is not None:
             login(request, user)
-            return redirect('home')  # Redirect to the home page after successful login
+            if user.is_corporate:
+                return redirect('corporate_login_landing_page')
+            else:
+                return redirect('landing_page')
         else:
             # Handle invalid login
             error_message = "Invalid username or password."
-            return render(request, 'home.html', {'error_message': error_message}) 
-    return redirect('register_corporate')  # Redirect to home page if accessing the login view directly
+            return render(request, 'main/landing_page.html', {'error_message': error_message}) 
+    return redirect('landing_page')  # Redirect to home page if accessing the login view directly
 
 #Logout
 def logout_request(request):

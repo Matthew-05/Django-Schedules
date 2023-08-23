@@ -47,7 +47,7 @@ urlpatterns = [
     path("register/corporate", views.register_corporate, name="register_corporate"),
     path("register/invite-code", views.employee_check, name="employee_check"),
     path("register/<int:invite_id>/<uuid:invite_code>", views.register_from_email, name="register_from_email"),
-    path('login/', views.login_view, name='login'),
+    path('login/', views.login_view, name='login_view'),
     path("logout/", views.logout_request, name= "logout"),
     
 

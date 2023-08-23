@@ -10,7 +10,7 @@
       <div class="modal-body" id="modalContent">
         <div id="loginForm">
           <!-- Login form content (default) -->
-          <form method="post" action="{% url 'login' %}">
+          <form method="post" action="{% url 'login_view' %}">
             {% csrf_token %}
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
