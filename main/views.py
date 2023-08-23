@@ -6,8 +6,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group, User
 from businesses.models import Business, Invited_Employees
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, JsonResponse
 from django.urls import reverse
+
 
 
 #Condition Checks
@@ -42,7 +43,9 @@ def landing_page(request):
             pass
             return redirect(login_landing_page)
     else:
-        return render(request=request, template_name='main/landing_page.html')
+        corporate_register_form = CorporateUserForm()
+        employee_register_form = UserFormFromEmail()
+        return render(request=request, template_name='main/landing_page.html', context={"corporate_register_form":corporate_register_form, "employee_register_form":employee_register_form})
 
 
 #Not Logged In Views
@@ -139,49 +142,29 @@ def register_corporate(request):
             user.groups.add(*groups)
             login(request, user)
             messages.success(request, "Registration successful." )
-            return redirect("login_landing_page")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+            return redirect("corporate_login_landing_page")
+        else:
+            errors = form.errors
+            return JsonResponse({'errors': errors}, status=400)
+        
     form = CorporateUserForm()
     return render (request=request, template_name="main/corporate_register.html", context={"register_form":form})
 
 
 #Login
-def login_request(request):
-    if not request.user.is_authenticated:
-        print("User not authenticated")
-        if request.method == "POST":
-            print("Posting")
-            form = AuthenticationForm(request, data=request.POST)
-            if form.is_valid():
-                print("Form is valid")
-                username = form.cleaned_data.get('username')
-                password = form.cleaned_data.get('password')
-                print(username)
-                print(password)
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    print("User Found")
-                    login(request, user)
-                    messages.info(request, f"You are now logged in as {username}.")
-                    if is_corporate(request):
-                        return redirect(corporate_login_landing_page)
-                    else:
-                        return render(request=request, template_name='main/login_landing_page.html')
-                else:
-                    print("Not Found")
-                    messages.error(request,"Invalid username or password.")
-            else:
-                print("Invalid Form")
-                print(form.errors)
-                messages.error(request,"Invalid username or password.")
-        form = AuthenticationForm()
-        print("Rendering")
-        return render(request=request, template_name="main/login.html", context={"login_form":form})
-    else:
-        if is_corporate(request):
-            return redirect('corporate_login_landing_page')
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')  # Redirect to the home page after successful login
         else:
-    	    return render(request=request, template_name='main/login_landing_page.html')
+            # Handle invalid login
+            error_message = "Invalid username or password."
+            return render(request, 'home.html', {'error_message': error_message}) 
+    return redirect('register_corporate')  # Redirect to home page if accessing the login view directly
 
 #Logout
 def logout_request(request):

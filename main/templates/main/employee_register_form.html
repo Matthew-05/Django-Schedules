@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+<form method="POST">
+	DOES NOT WORK RIGHT NOW
+	{% csrf_token %}
+	{{ employee_register_form |crispy }}                    
+	<button id= "employeeRegisterButton" class="btn btn-primary" type="submit">Register</button>
+</form>

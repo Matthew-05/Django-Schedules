@@ -59,16 +59,9 @@
       <!-- Left links -->
 
       <div class="d-flex align-items-center">
-        <button type="button" class="btn btn-link px-3 me-2">
-          <a href="/register">
-          Register
-          </a>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+          Login
         </button>
-        <a href="/login">
-          <button type="button" class="btn btn-primary me-3">
-            Login
-          </button>
-        </a>
       </div>
     </div>
     <!-- Collapsible wrapper -->
@@ -77,11 +70,16 @@
 </nav>
 <!-- Navbar -->
 
+<script src="{% static "js/landing-page-scripts.js" %}"></script>
+
 {% include 'main/includes/messages.html' %}
+
+{% include 'main/login_modal.html' %}
+
 
 {% block content  %}
 
 
 
 
-{% endblock  %}
+{% endblock %}

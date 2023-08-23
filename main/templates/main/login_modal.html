@@ -1,0 +1,45 @@
+<!-- login_modal.html -->
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalContent">
+        <div id="loginForm">
+          <!-- Login form content (default) -->
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+          </form>
+        </div>
+        <!-- Registration forms (hidden by default) -->
+        <div id="employeeRegistrationForm" style="display: none;">
+          {% include 'main/employee_register_form.html' %}
+        </div>
+        
+        <div id="corporateRegisterForm" style="display: none;">
+          {% include 'main/corporate_register_form.html' %}
+        </div>
+        <div class="d-flex justify-content-center" id="registerButtons">
+          <button id="corporate" type="button" class="btn btn-secondary me-2" style="display: none;">Register as Corporate</button>
+          <button id="employee" type="button" class="btn btn-secondary" style="display: none;">Register as Employee</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <p class="text-center" id="registerLink">Don't have an account? <a href="#" id="showRegisterForm">Register Here</a></p>
+        <p class="text-center" id="loginLink" style="display: none;"]>If you already have an account, <a href="#" id="showLoginForm">login</a> instead.</p>
+      </div>
+    </div>
+  </div>
+</div>
