@@ -113,10 +113,14 @@ def get_all_time_off_instances(request):
     time_offs_list = []
     if len(time_offs) > 0:
         for time_off_object in time_offs:
+            print(time_off_object.requester)
             time_off_object_ID = time_off_object.id
             first_name = time_off_object.requester.first_name
             last_name = time_off_object.requester.last_name
-            requester_role = time_off_object.requester.primary_role.role_name
+            if time_off_object.requester.primary_role is not None:
+                requester_role = time_off_object.requester.primary_role.role_name   
+            else:
+                requester_role = "N/A"
             start_date = time_off_object.start_date
             end_date = time_off_object.end_date
             accepted = time_off_object.accepted
