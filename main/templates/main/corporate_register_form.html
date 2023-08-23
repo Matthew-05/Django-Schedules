@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}         
+
+<!--Register--> 
+<form method="post" action="{% url 'register_corporate' %}">
+	{% csrf_token %}
+	{{ corporate_register_form | crispy }}                    
+	<button id= "corporateRegisterButton" class="btn btn-primary" type="submit">Register</button>
+</form>
+

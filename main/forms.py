@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from main.models import Account
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
 
 
 class EmployeeCheck(forms.Form):
@@ -23,9 +25,18 @@ class UserForm(UserCreationForm):
 		return user
 
 class UserFormFromEmail(UserCreationForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
+		# Customize the field IDs
+		self.fields['first_name'].widget.attrs['id'] = 'employee_first_name'
+		self.fields['last_name'].widget.attrs['id'] = 'employee_last_name'
+		self.fields['password1'].widget.attrs['id'] = 'employee_password1'
+		self.fields['password2'].widget.attrs['id'] = 'employee_password2'
 	class Meta:
 		model = Account
 		fields = ("first_name", "last_name", "password1", "password2")
+		
 
 
 class CorporateUserForm(UserCreationForm):
