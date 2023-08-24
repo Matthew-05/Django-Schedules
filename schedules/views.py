@@ -61,7 +61,10 @@ def get_scheduled_shifts(request):
             end_time = start_and_end_times[1]
             day_of_week = get_day_of_week(matched_shift.shift_slots)
             name = matched_shift.employee.first_name + " " + matched_shift.employee.last_name
-            shift_role = matched_shift.role.role_name
+            if matched_shift.role is not None:
+                shift_role = matched_shift.role.role_name
+            else:
+                shift_role = "N/A"
             if matched_shift.related_shift_outline:
                 shift_outline_id = matched_shift.related_shift_outline.pk
             else:
@@ -97,7 +100,10 @@ def get_employees(request):
         for employee in employees:
             first_name = employee.first_name
             last_name = employee.last_name
-            role = employee.primary_role.role_name
+            if employee.primary_role is not None:
+                role = employee.primary_role.role_name
+            else:
+                role = "N/A"
             employee_id = employee.pk
 
             name = first_name + " " + last_name
