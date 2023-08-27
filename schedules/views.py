@@ -161,7 +161,47 @@ def get_day_of_week(slots):
 def is_between(number, lower_bound, upper_bound):
     return lower_bound <= number <= upper_bound
 
+
+def get_all_schedule_templates(request):
+    business_id = request.GET.get("businessID")
+    schedule_templates = Schedule_Template.objects.filter(business__id=business_id)
+    schedule_templates_list = []
+    if len(schedule_templates) > 0:
+        for template_object in schedule_templates:
+            template_id = template_object.id
+            template_name = template_object.template_name
+            json_version = {"templateID": template_id, "templateName": template_name}
+            schedule_templates_list.append(json_version)
+        return JsonResponse(schedule_templates_list, safe=False)
+    else:
+        return JsonResponse({})
     
+def get_all_templated_shifts(request):
+    business_id = request.GET.get("businessID")
+    shifts = Schedule_Template.objects.filter(business__id=business_id)
+    shift_list = []
+    if len(shifts) > 0:
+        for shift in shifts:
+            shift_id = shift.id
+            json_version = {"templateID": shift_id}
+            shift_list.append(json_version)
+        return JsonResponse(shift_list, safe=False)
+    else:
+        return JsonResponse({})
+
+def get_all_roles(request):
+    business_id = request.GET.get("businessID")
+    roles = Business_Job_Roles.objects.filter(business__id=business_id)
+    role_list = []
+    if len(roles) > 0: 
+        for role in roles: 
+            role_id = role.id
+            role_name = role.role_name
+            json_version = {"roleID": role_id, "roleName": role_name}
+            role_list.append(json_version)
+        return JsonResponse(role_list, safe=False)
+    else: 
+        return JsonResponse({})
     
 
 

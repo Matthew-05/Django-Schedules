@@ -41,6 +41,11 @@ urlpatterns = [
     path("getscheduledshifts/", schedules.views.get_scheduled_shifts, name = "get_scheduled_shifts"),
     path("getemployees/", schedules.views.get_employees, name = "get_employees"),
 
+#New Schedule Relevant URLS
+    path("getscheduletemplates/", schedules.views.get_all_schedule_templates, name = "get_all_schedule_templates"),
+    path("getalltemplatedshifts/", schedules.views.get_all_templated_shifts, name = "get_all_templated_shifts"),
+    path("getallroles/", schedules.views.get_all_roles, name = "get_all_roles"),
+
     
 #Login, Logout, Register   
     path("register/", views.register_question, name="register_question"),

@@ -4,41 +4,135 @@
 
 {% load static %}
 
+
 {% load crispy_forms_tags %}         
 
-Schedule
-<b>{{ business.name }}</b>
-
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-      <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="{% static "css/jquery.timepicker.css" %}"/>
-    <link rel="stylesheet" href="{% static "css/shift_outline.css" %}"/>
-  </head>
-  <script>
-    var csrfToken = '{{ csrf_token }}';
-  </script>
+  <link rel="stylesheet" href="{% static "css/schedule_template.css" %}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="{% static "js/jquery.timepicker.js" %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static "css/jquery.timepicker.css" %}" />
+</head>
 
-  {% if all_shift_outlines %}
-  <label for="roles">Choose a Role:</label>
-  <select name="roles" id="roles">
-  {% for all_shift_outline in all_shift_outlines %}
-  <option value="{{all_shift_outline.pk}}">{{all_shift_outline.role}}</option>
-  {% endfor %}
-  </select>
-  {% endif %}
-  
 
-  <div id="optionModal" class="modal">
-    <div id ="modalContent" class="modal-content">
+<div class="content-container">
+  <div class="sidebar-container" id="sidebar">
+    <div id="hideWhenEditing" class="hide-when-editing-container">
+        <button class="btn btn-primary" id="newTemplateButton" onclick="newTemplate()">New Template</button>
+        <select class="form-select" name="templates" id="selectTemplateButton"></select>
+    </div>
+    <div class="role-filters" id="roleFilters">
+        <h3>Filter by Role</h3>
     </div>
   </div>
-  
-  <script src="{% static "js/jquery.timepicker.js" %}"></script>
+  <div class="view-template-container">
+    <div class="above-template-container">
+      <h1 id="templateName">Template Name</h1>
+      <div style="display: none;" id="editTemplateButton" onclick=editTemplate() class="icon-container">
+        <i class="fa-solid fa-pencil"></i>
+        <span class="icon-label">Edit Template</span>
+      </div>
+      <button class="save-template-button btn btn-secondary" style="display: none;" onclick="saveNewTemplate()">Save Template</button>
+      <button id="updateButton" class="update-template-button btn btn-secondary" style="display: none;" onclick="updateTemplate()">Save Template</button>
+      <button class="exit-edit-button btn btn-danger" style="display: none;" onclick="exitEditTemplate()">Exit Edit Mode</button>
+    </div>
+    <div class="entire-column-container">
+      <div class="column-container" data-day-of-week="Sunday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Sunday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="sundayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Monday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Monday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="mondayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Tuesday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Tuesday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="tuesdayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Wednesday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Wednesday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="wednesdayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Thursday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Thursday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="thursdayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Friday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Friday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="fridayShifts"></div>
+      </div>
+      <div class="column-container" data-day-of-week="Saturday">
+        <div class="view-total-count-per-hour" onclick="viewStaffingChart(this)">
+          View Staffing Chart
+        </div>
+        <div class="day-of-week-label">
+          Saturday
+        </div>
+        <button style="display: none;" class="add-shift-button" onClick="addShift(this)">+</button>
+        <div class="shifts-column-container" id="saturdayShifts"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<script src="https://unpkg.com/htmx.org@1.6.1/dist/htmx.min.js"></script>
-<script src="{% static "js/scheduleskeleton.js" %}"></script>
-<script src="//localhost:35729/livereload.js"></script>
-</body>
+<!-- Modal -->
+<div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chartModalLabel">Modal Title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="chartModalBody" class="modal-body">
+        <canvas id="employeesOverTimeChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<script src="https://jonthornton.github.io/Datepair.js/dist/datepair.js"></script>
+<script src="https://jonthornton.github.io/Datepair.js/dist/jquery.datepair.js"></script>
+
+<div id="businessID" data-backend-data="{{ business.id }}"></div>
+<script src="{% static "js/schedule_template.js" %}"></script>
+  
 
 {% endblock %}

@@ -53,13 +53,13 @@ class Actual_Shifts(models.Model):
     week_multiplier         = models.IntegerField(null=True, blank=True)
     related_shift_outline   = models.ForeignKey(Shift_Outline_Individual, on_delete=models.CASCADE, blank=True, null=True)
 
-class Shift_Template(models.Model):
+class Schedule_Template(models.Model):
     business                = models.ForeignKey(Business,on_delete=models.CASCADE)
     template_name           = models.CharField(max_length=100)
 
 
 class Single_Templated_Shift(models.Model):
-    shift_template                = models.ForeignKey(Shift_Template,on_delete=models.CASCADE)
+    shift_template                = models.ForeignKey(Schedule_Template,on_delete=models.CASCADE)
     number_of_employees           = models.IntegerField()
     start_slot                    = models.IntegerField()
     end_slot                      = models.IntegerField()
