@@ -130,8 +130,7 @@ const sampleShiftData = [
     { templateID: 2, dayOfWeek: 'Monday', startTime: '9:00 AM', endTime: '6:00 PM', numberOfEmployees: 6, role: "Server", shiftID: 4}
 ];
 
-// Edited version of specific template, it starts out as copy of all, but when edits or deletions first occur, it will be filtered
-let workableSampleShiftData = []
+
 
 // Sample response data for the roles
 const sampleRoleData = [
@@ -144,7 +143,7 @@ const sampleRoleData = [
 
 let roleColors = []
 
-let newTemplateData = []
+
 
 // Function to populate the role filters
 function populateRoleFilters() {
@@ -363,8 +362,9 @@ function exitEditTemplate() {
     if (editTemplateButtonExists==true) {
     editTemplateButton.style.display = 'block';
     }
-    workableSampleShiftData = []
-    newTemplateData = []
+
+    existingShiftsManager.clearWorkableData()
+    newShiftsManager.clearNewTemplate()
 }
 
 function changeTemplate() {
@@ -383,13 +383,14 @@ function addEditTemplateButton() {
     };
 };
 
+
 function editTemplate() {
     var selectedTemplateID = document.getElementById('selectTemplateButton').value;
     var templateName = sampleTemplateData.filter(template => template.templateID == selectedTemplateID)[0].templateName
     var templateTitle = document.getElementById('templateName').innerHTML = templateName;
 
-    workableSampleShiftData = sampleShiftData.map(item => ({ ...item }));
-    workableSampleShiftData = workableSampleShiftData.filter(shift => shift.templateID == selectedTemplateID)
+    existingShiftsManager.createNewWorkableData(selectedTemplateID)
+    workableSampleShiftData = existingShiftsManager.getWorkableShiftData()
     
     var selectedTemplateID = document.getElementById('selectTemplateButton').value;
     templateNameContainer.innerHTML = `<input id="newTemplateName" type="text" class="new-template-input" value="${templateTitle}" />`;
@@ -410,8 +411,9 @@ function editTemplate() {
 function handleEditClick(clickedIcon) {
     $('[data-group="toggle"]').css('display', 'none');
     $(".add-shift-button").css("visibility", "hidden");
+
     const parentContainer = clickedIcon.parentNode.parentNode.parentNode;
-    let targetShifts = workableSampleShiftData
+    let targetShifts = existingShiftsManager.getWorkableShiftData()
 
     const shiftToEdit = parentContainer.getAttribute('shift_id');
     if (shiftToEdit.includes("WIP")) {
@@ -483,11 +485,6 @@ function createEditCurrentHTML(targetShift) {
     return(shiftInfo)
 }
 
-function handleDeleteFromTemplate(clickedIcon) {
-    const objectToUpdate = clickedIcon.parentNode.parentNode.parentNode;
-    const idToUpdate = objectToUpdate.getAttribute('shift_id');
-
-}
 
 function handleUpdatedShift(clickedIcon) {
     let targetTemplateList
@@ -506,7 +503,7 @@ function handleUpdatedShift(clickedIcon) {
     targetTemplateList = newTemplateData
     }
     else {
-    targetTemplateList = workableSampleShiftData
+    targetTemplateList = existingShiftsManager.getWorkableShiftData()
     console.log()
     }
     
@@ -557,29 +554,25 @@ function handleDelete(clickedIcon) {
     const parentContainer = clickedIcon.parentNode.parentNode.parentNode;
     const targetShiftID = parentContainer.getAttribute('shift_id');
 
+    workableSampleShiftData = existingShiftsManager.getWorkableShiftData()
+
     //unsubmitted list of shifts
     if (targetShiftID.includes("WIP")) {
-    let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
-    let idToDelete = objectToDelete.getAttribute("shift_ID")
+        let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
+        let idToDelete = objectToDelete.getAttribute("shift_ID")
 
-    let indexToRemove = newTemplateData.findIndex(obj => obj.shift_ID === idToDelete);
+        newShiftsManager.removeShift(idToDelete)
 
-    objectToDelete.remove();
-    newTemplateData.splice(indexToRemove, 1);
-    console.log("HEre")
-    console.log(newTemplateData)
+        objectToDelete.remove();
     }
 
     else {
-    let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
-    let idToDelete = objectToDelete.getAttribute("shift_ID")
+        let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
+        let idToDelete = objectToDelete.getAttribute("shift_ID")
 
-    let indexToRemove = workableSampleShiftData.findIndex(obj => obj.shift_ID === idToDelete);
+        objectToDelete.remove();
 
-    objectToDelete.remove();
-    workableSampleShiftData.splice(indexToRemove, 1);
-    console.log(workableSampleShiftData)
-    console.log(sampleShiftData)
+        existingShiftsManager.deleteShift(idToDelete)
     }
     
 }
@@ -592,12 +585,6 @@ function updateTemplate() {
     exitEditButton.style.display = 'none';
     newTemplateButton.style.display = 'block';
     selectTemplateButton.style.display = 'block';
-
-    //Remaining posted shifts
-    console.log(workableSampleShiftData)
-
-    //Newly created shifts
-    console.log(newTemplateData)
 
     if (editTemplateButtonExists==true) {
     editTemplateButton.style.display = 'block';
@@ -628,8 +615,10 @@ function handleSaveNew(clickedIcon) {
     }
     else {
     let targetRoleIndex = sampleRoleData.findIndex(obj => obj.roleName == roleName)
-    let newShiftID = "WIP" + (newTemplateData.length+1)
-    newTemplateData.push({ templateID: "workInProgress", dayOfWeek: weekEditing, startTime: newShiftStartingTime, endTime: newShiftEndingTime, numberOfEmployees: newShiftEmployeeCount, role: "Server", shiftID: newShiftID})
+    
+    newShiftsManager.addNewTemplateData(weekEditing, newShiftStartingTime, newShiftEndingTime, newShiftEmployeeCount, roleName, newShiftRoleSelector)
+    newShiftID = newShiftsManager.getNewShiftID()
+
     const column = dayOfWeekToColumnMap[weekEditing];
     const shiftContainer = document.createElement('div');
     shiftContainer.classList.add('shift-container');
@@ -661,7 +650,6 @@ function handleSaveNew(clickedIcon) {
     newShiftContainer.remove();
     $('[data-group="toggle"]').css('display', 'flex');
     $(".add-shift-button").css("visibility", "");
-    console.log(newTemplateData)
     }
 };
 
@@ -670,8 +658,11 @@ function viewStaffingChart(buttonClicked) {
     const relevantTemplate = document.getElementById('selectTemplateButton').value;
     let shiftsToChart
     let withTimeIntervals = []
-    let employeesPerEachTimeSlotList = []
+
     chartModalLabel.textContent = relevantDayOfWeek
+    let workableSampleShiftData = existingShiftsManager.getWorkableShiftData()
+    let newtemplateData = newShiftsManager.getNewShifts()
+    console.log(newtemplateData)
 
     //Not editing exiting Template --> Either Viewing New Template or Uneditied Exisitng Template
     if (workableSampleShiftData.length == 0) {
@@ -692,13 +683,20 @@ function viewStaffingChart(buttonClicked) {
     }
     //Editing an existing chart NOTE THIS WILL PROBABLY BUG IF SOMEONE DELETES EVERY SINGLE OLD EXISTING SHIFT BUT WHO THE FUCK WOULD DO THAT
     else {
-    console.log("Editing exisiting template")
-    let filteredShifts = sampleShiftData.filter(shift => shift.templateID == relevantTemplate)
+    console.log("Editing exisiting template!!!")
+    let filteredShifts = workableSampleShiftData.filter(shift => shift.templateID == relevantTemplate)
+    
     let filterdForDayShifts = filteredShifts.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
-    let filteredNewShifts = newTemplateData.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
+    console.log(filterdForDayShifts)
 
-    shiftsToChart = filterdForDayShifts.concat(filteredNewShifts)
-
+    if (newTemplateData.length != 0) {
+        let filteredNewShifts = newTemplateData.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
+        shiftsToChart = filterdForDayShifts.concat(filteredNewShifts)
+    }
+    else {
+        shiftsToChart = filterdForDayShifts
+    }
+    
     chartModal.show();
     }
 
@@ -822,6 +820,74 @@ function addArrays(arrays) {
     return result;
 }
 
+//existingShiftsManager NOTE THAT YOU HAVE TO ADD NEW SHIFTS USING NEW SHIFTS MANAGER EVEN THOUGH ITS TO AN EXISTING TEMPLATE
+//This manages the copy of the existing shifts
+function createExistingShiftsManager() {
+    let workableSampleShiftData = []
+
+    this.createNewWorkableData = function(selectedTemplateID) {
+        sampleShiftDataCopy = sampleShiftData.map(item => ({ ...item }));
+        workableSampleShiftData = sampleShiftDataCopy.filter(shift => shift.templateID == selectedTemplateID)
+    }
+
+    this.deleteShift = function(idToDelete) {
+        let indexToRemove = workableSampleShiftData.findIndex(obj => obj.shift_ID === idToDelete);
+        workableSampleShiftData.splice(indexToRemove, 1);
+    }
+    
+    this.clearWorkableData = function() {
+        workableSampleShiftData = []
+    }
+
+    this.getWorkableShiftData = function() {
+        return workableSampleShiftData
+    }  
+   
+}
+
+//newShiftsManager
+//This manages the newly created shifts
+function createNewShiftsManager() {
+    this.newTemplateData = []
+    
+    this.addNewTemplateData = function(dayOfWeek, newShiftStartingTime, newShiftEndingTime, newShiftEmployeeCount, roleName) {
+        let newShiftID = "WIP" + (newTemplateData.length+1)
+        let shiftToAdd = {
+            shiftID: newShiftID,
+            templateID: newShiftID,
+            dayOfWeek: dayOfWeek,
+            startTime: newShiftStartingTime,
+            endTime: newShiftEndingTime,
+            numberOfEmployees: newShiftEmployeeCount,
+            role: roleName,
+            
+        }
+        this.newTemplateData.push(shiftToAdd)
+        console.log(newTemplateData)
+    }
+
+    this.getNewShiftID = function() {
+        let newShiftID = "WIP" + (newTemplateData.length+1)
+        return newShiftID
+    }
+
+    this.deleteShift = function(idToDelete) {
+        let indexToRemove = this.newTemplateData.findIndex(obj => obj.shift_ID === idToDelete);
+        this.newTemplateData.splice(indexToRemove, 1);
+    }
+
+    this.clearNewTemplate = function() {
+        this.newTemplateData = []
+    }
+
+    this.getNewShifts = function() {
+        return this.newTemplateData
+    }
+
+}
+
+const existingShiftsManager = new createExistingShiftsManager();
+const newShiftsManager = new createNewShiftsManager();
 
 addEditTemplateButton();
 populateTemplateSelector();
