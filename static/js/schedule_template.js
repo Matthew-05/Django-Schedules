@@ -561,7 +561,7 @@ function handleDelete(clickedIcon) {
         let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
         let idToDelete = objectToDelete.getAttribute("shift_ID")
 
-        newShiftsManager.removeShift(idToDelete)
+        newShiftsManager.deleteShift(idToDelete)
 
         objectToDelete.remove();
     }
@@ -569,10 +569,12 @@ function handleDelete(clickedIcon) {
     else {
         let objectToDelete = clickedIcon.parentNode.parentNode.parentNode
         let idToDelete = objectToDelete.getAttribute("shift_ID")
+        console.log("Trying to delete shift with ID")
 
         objectToDelete.remove();
 
         existingShiftsManager.deleteShift(idToDelete)
+        console.log("Deleted an existing shift")
     }
     
 }
@@ -660,16 +662,14 @@ function viewStaffingChart(buttonClicked) {
     let withTimeIntervals = []
 
     chartModalLabel.textContent = relevantDayOfWeek
-    let workableSampleShiftData = existingShiftsManager.getWorkableShiftData()
-    let newtemplateData = newShiftsManager.getNewShifts()
-    console.log(newtemplateData)
+    workableSampleShiftData = existingShiftsManager.getWorkableShiftData()
 
     //Not editing exiting Template --> Either Viewing New Template or Uneditied Exisitng Template
     if (workableSampleShiftData.length == 0) {
     //Editing New Template
     if (document.getElementById('selectTemplateButton').style.display == "none") {
         console.log("Editing New Template")
-        shiftsToChart = newTemplateData.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
+        shiftsToChart = newShiftsManager.getNewShifts().filter(shift => shift.dayOfWeek == relevantDayOfWeek)
         chartModal.show();
     }
     //Not editing template
@@ -684,13 +684,13 @@ function viewStaffingChart(buttonClicked) {
     //Editing an existing chart NOTE THIS WILL PROBABLY BUG IF SOMEONE DELETES EVERY SINGLE OLD EXISTING SHIFT BUT WHO THE FUCK WOULD DO THAT
     else {
     console.log("Editing exisiting template!!!")
-    let filteredShifts = workableSampleShiftData.filter(shift => shift.templateID == relevantTemplate)
-    
+    console.log(existingShiftsManager.getWorkableShiftData())
+    let filteredShifts = existingShiftsManager.getWorkableShiftData().filter(shift => shift.templateID == relevantTemplate)
     let filterdForDayShifts = filteredShifts.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
     console.log(filterdForDayShifts)
 
-    if (newTemplateData.length != 0) {
-        let filteredNewShifts = newTemplateData.filter(shift => shift.dayOfWeek == relevantDayOfWeek)
+    if (newShiftsManager.getNewShifts().length != 0) {
+        let filteredNewShifts = newShiftsManager.getNewShifts().filter(shift => shift.dayOfWeek == relevantDayOfWeek)
         shiftsToChart = filterdForDayShifts.concat(filteredNewShifts)
     }
     else {
@@ -823,24 +823,29 @@ function addArrays(arrays) {
 //existingShiftsManager NOTE THAT YOU HAVE TO ADD NEW SHIFTS USING NEW SHIFTS MANAGER EVEN THOUGH ITS TO AN EXISTING TEMPLATE
 //This manages the copy of the existing shifts
 function createExistingShiftsManager() {
-    let workableSampleShiftData = []
+    this.workableSampleShiftData = []
 
     this.createNewWorkableData = function(selectedTemplateID) {
-        sampleShiftDataCopy = sampleShiftData.map(item => ({ ...item }));
-        workableSampleShiftData = sampleShiftDataCopy.filter(shift => shift.templateID == selectedTemplateID)
+        let sampleShiftDataCopy = sampleShiftData.map(item => ({ ...item }));
+        this.workableSampleShiftData = sampleShiftDataCopy.filter(shift => shift.templateID == selectedTemplateID)
     }
 
     this.deleteShift = function(idToDelete) {
-        let indexToRemove = workableSampleShiftData.findIndex(obj => obj.shift_ID === idToDelete);
-        workableSampleShiftData.splice(indexToRemove, 1);
+        console.log("Id to delete")
+        console.log(idToDelete)
+        let indexToRemove = this.workableSampleShiftData.findIndex(obj => obj.shiftID === parseInt(idToDelete));
+        console.log("Removing index", indexToRemove)
+        this.workableSampleShiftData.splice(indexToRemove, 1);
+        console.log("Workable After Delete")
+        console.log(this.workableSampleShiftData)
     }
     
     this.clearWorkableData = function() {
-        workableSampleShiftData = []
+        this.workableSampleShiftData = []
     }
 
     this.getWorkableShiftData = function() {
-        return workableSampleShiftData
+        return this.workableSampleShiftData
     }  
    
 }
@@ -851,7 +856,7 @@ function createNewShiftsManager() {
     this.newTemplateData = []
     
     this.addNewTemplateData = function(dayOfWeek, newShiftStartingTime, newShiftEndingTime, newShiftEmployeeCount, roleName) {
-        let newShiftID = "WIP" + (newTemplateData.length+1)
+        let newShiftID = "WIP" + (this.newTemplateData.length+1)
         let shiftToAdd = {
             shiftID: newShiftID,
             templateID: newShiftID,
@@ -863,16 +868,16 @@ function createNewShiftsManager() {
             
         }
         this.newTemplateData.push(shiftToAdd)
-        console.log(newTemplateData)
+        console.log(this.newTemplateData)
     }
 
     this.getNewShiftID = function() {
-        let newShiftID = "WIP" + (newTemplateData.length+1)
+        let newShiftID = "WIP" + (this.newTemplateData.length+1)
         return newShiftID
     }
 
     this.deleteShift = function(idToDelete) {
-        let indexToRemove = this.newTemplateData.findIndex(obj => obj.shift_ID === idToDelete);
+        let indexToRemove = this.newTemplateData.findIndex(obj => obj.shiftID === idToDelete);
         this.newTemplateData.splice(indexToRemove, 1);
     }
 
@@ -881,6 +886,7 @@ function createNewShiftsManager() {
     }
 
     this.getNewShifts = function() {
+        console.log(this.newTemplateData)
         return this.newTemplateData
     }
 

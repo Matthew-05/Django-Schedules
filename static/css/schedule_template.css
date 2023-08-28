@@ -74,7 +74,7 @@ body, html {
     grid-template-columns: repeat(7, 1fr);
     height: 100%;
     gap: 10px;
-    overflow: auto;
+    overflow: hidden;
   }
   .column-container {
     display: flex;
@@ -82,14 +82,13 @@ body, html {
     width: calc(100% / 7); /* Set fixed width for equal distribution */
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    min-width: 170px;
-    overflow: auto;
   }
 
   .shifts-column-container {
     background-color: #ccc;
     height: 100%;
     width: 100%;
+    overflow-y: auto;
   }
   .day-of-week-label {
     font-size: 16px;
@@ -126,7 +125,6 @@ body, html {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 14px;
   text-align: center;
-  min-width: 170px;
   flex-grow: 1;
 }
 
